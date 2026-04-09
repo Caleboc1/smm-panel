@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String        @id @default(cuid())
+  email         String        @unique
+  password      String
+  name          String?
+  balance       Float         @default(0)
+  apiKey        String?       @unique @default(cuid())
+  role          Role          @default(USER)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  orders        Order[]
+  transactions  Transaction[]
+  sessions      Session[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  platform    String
+  icon        String?
+  sortOrder   Int       @default(0)
+  services    Service[]
+  createdAt   DateTime  @default(now())
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  categoryId  String
+  name        String
+  description String?  @db.Text
+  minOrder    Int
+  maxOrder    Int
+  rate        Float    // NGN per 1000
+  upstreamId  String?  // ID at wholesale provider
+  type        ServiceType @default(DEFAULT)
+  refill      Boolean  @default(false)
+  cancel      Boolean  @default(false)
+  dripFeed    Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id])
+  orders      Order[]
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String
+  serviceId       String
+  link            String
+  quantity        Int
+  charge          Float
+  status          OrderStatus @default(PENDING)
+  upstreamOrderId String?
+  startCount      Int?
+  remains         Int?
+  customComment   String?     @db.Text
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  user            User        @relation(fields: [userId], references: [id])
+  service         Service     @relation(fields: [serviceId], references: [id])
+}
+
+model Transaction {
+  id          String            @id @default(cuid())
+  userId      String
+  amount      Float
+  type        TransactionType
+  method      String?
+  reference   String?           @unique
+  status      TransactionStatus @default(PENDING)
+  description String?
+  createdAt   DateTime          @default(now())
+  user        User              @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ServiceType {
+  DEFAULT
+  CUSTOM_COMMENTS
+  MENTIONS
+  PACKAGE
+  SUBSCRIPTIONS
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  FAILED
+  REFUNDED
+  PARTIAL
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
