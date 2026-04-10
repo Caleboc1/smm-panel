@@ -39,7 +39,7 @@ export default async function DashboardPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className=" mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>Dashboard</h2>
         <Link href="/dashboard/new-order"
@@ -56,7 +56,7 @@ export default async function DashboardPage() {
               <s.icon className={`w-4 h-4 ${s.color}`} />
             </div>
             <div className={`text-xl font-bold font-mono ${s.color}`}>{s.value}</div>
-            <div className="text-xs text-white/40 mt-1">{s.label}</div>
+            <div className="text-xs text-foreground mt-1">{s.label}</div>
           </Link>
         ))}
       </div>

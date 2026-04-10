@@ -9,7 +9,7 @@ export default async function AdminUsersPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>Users ({users.length})</h1>
-      <div className="surface-2 border-subtle rounded-2xl overflow-hidden">
+      <div className=" rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-white/[0.02]">

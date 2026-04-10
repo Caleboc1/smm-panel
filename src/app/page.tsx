@@ -30,7 +30,7 @@ async function getServices() {
 export default async function HomePage() {
   const [stats, services] = await Promise.all([getStats(), getServices()]);
   return (
-    <main className="min-h-screen bg-[#0a0a0f] overflow-x-hidden">
+    <main className="min-h-screen bg-gray-50 overflow-x-hidden">
       <LandingNav />
       <HeroSection />
       <StatsBar stats={stats} />

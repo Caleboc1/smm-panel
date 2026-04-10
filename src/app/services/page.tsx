@@ -30,7 +30,7 @@ export default function ServicesPage() {
   const platforms = [...new Set(categories.map((c:any)=>c.platform))];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f]">
+    <div className="min-h-screen bg-gray-50">
       <LandingNav />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-28 pb-20">
         <div className="text-center mb-12">

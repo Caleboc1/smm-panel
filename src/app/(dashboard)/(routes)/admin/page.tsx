@@ -34,13 +34,13 @@ export default async function AdminOverview() {
       <h1 className="text-2xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>Admin Overview</h1>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map(s=>(
-          <div key={s.label} className="surface-2 border-subtle rounded-2xl p-5">
+          <div key={s.label} className=" rounded-2xl p-5">
             <div className="text-2xl font-bold font-mono text-white mb-1">{s.value}</div>
             <div className="text-xs text-white/40">{s.label}</div>
           </div>
         ))}
       </div>
-      <div className="surface-2 border-subtle rounded-2xl overflow-hidden">
+      <div className=" rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-white/5"><h3 className="font-semibold">Recent Orders</h3></div>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">

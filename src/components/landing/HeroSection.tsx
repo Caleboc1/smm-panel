@@ -4,12 +4,7 @@ import { ArrowRight, Shield, Zap, Users } from "lucide-react";
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-violet-600/10 blur-[120px]" />
-        <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] rounded-full bg-emerald-600/10 blur-[80px]" />
-        <div className="absolute inset-0" style={{backgroundImage:"radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)", backgroundSize:"40px 40px"}} />
-      </div>
+   
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300 text-sm mb-8">

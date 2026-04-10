@@ -44,7 +44,7 @@ export default function AdminServicesPage() {
       </div>
 
       {showForm && (
-        <div className="surface-2 border-subtle rounded-2xl p-6">
+        <div className=" rounded-2xl p-6">
           <h3 className="font-semibold mb-5">New Service</h3>
           <form onSubmit={handleCreate} className="grid sm:grid-cols-2 gap-4">
             {[
@@ -90,7 +90,7 @@ export default function AdminServicesPage() {
         </div>
       )}
 
-      <div className="surface-2 border-subtle rounded-2xl overflow-hidden">
+      <div className=" rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead className="bg-white/[0.02]">

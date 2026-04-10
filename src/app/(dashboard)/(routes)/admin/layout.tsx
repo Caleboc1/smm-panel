@@ -16,8 +16,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex">
-      <aside className="fixed left-0 top-0 bottom-0 w-56 border-r border-white/5 bg-[#0d0d1a] flex flex-col">
+    <div className="min-h-screen  flex">
+      <aside className="fixed left-0 top-0 bottom-0 w-56 border-r border-white/5 bg-gray-50 flex flex-col">
         <div className="h-14 flex items-center px-4 border-b border-white/5">
           <span className="text-xs font-bold text-white/30 uppercase tracking-widest">Admin Panel</span>
         </div>
