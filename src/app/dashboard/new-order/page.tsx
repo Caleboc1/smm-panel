@@ -99,7 +99,7 @@ export default function NewOrderPage() {
                     {filtered.map((s:any) => (
                       <tr key={s.id}
                         onClick={() => { setSelected(s); setQuantity(String(s.minOrder)); }}
-                        className={`border-t border-white/[0.03] cursor-pointer transition-colors ${selected?.id === s.id ? "bg-violet-600/10 border-violet-500/20" : "hover:bg-white/[0.03]"}`}>
+                        className={`border-t border-white/[0.03] cursor-pointer transition-colors ${selected?.id === s.id ? "bg-background border-violet-500/20" : "hover:bg-white/[0.03]"}`}>
                         <td className="px-4 py-3 text-white/30 text-xs font-mono">{s.id.slice(-6)}</td>
                         <td className="px-4 py-3 text-white/80 max-w-[220px]">
                           <div className="truncate">{s.name}</div>

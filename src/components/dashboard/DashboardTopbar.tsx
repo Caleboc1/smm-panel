@@ -12,7 +12,7 @@ export function DashboardTopbar({ user }: { user: any }) {
   }, []);
 
   return (
-    <header className="h-16 border-b border-white/5 bg-[#0d0d1a]/80 backdrop-blur px-4 sm:px-6 flex items-center justify-between">
+    <header className="h-16 border-b border-white/5 bg-white backdrop-blur px-4 sm:px-6 flex items-center justify-between">
       <h1 className="text-white/60 text-sm font-medium hidden sm:block">
         Welcome back, <span className="text-white">{user?.name || user?.email}</span>
       </h1>

@@ -40,7 +40,7 @@ export default function OrdersPage() {
         </button>
       </div>
 
-      <div className="surface-2 border-subtle rounded-2xl overflow-hidden">
+      <div className=" border-subtle rounded-2xl overflow-hidden">
         {loading ? (
           <div className="py-16 text-center text-white/30">Loading orders...</div>
         ) : orders.length === 0 ? (

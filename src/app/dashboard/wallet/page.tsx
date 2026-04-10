@@ -47,8 +47,8 @@ export default function WalletPage() {
 
       <div className="grid md:grid-cols-2 gap-6">
         {/* Balance card */}
-        <div className="surface-2 border-subtle rounded-2xl p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-violet-600/10 rounded-full blur-2xl" />
+        <div className="bg-white rounded-2xl p-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32  rounded-full blur-2xl" />
           <div className="relative">
             <div className="flex items-center gap-2 text-white/40 text-sm mb-4">
               <Wallet className="w-4 h-4" /> Available Balance

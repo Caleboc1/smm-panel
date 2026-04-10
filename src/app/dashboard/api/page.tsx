@@ -28,7 +28,7 @@ export default function ApiPage() {
     <div className="max-w-4xl mx-auto space-y-6">
       <h2 className="text-2xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>API Access</h2>
 
-      <div className="surface-2 border-subtle rounded-2xl p-6">
+      <div className=" rounded-2xl p-6">
         <div className="flex items-center gap-2 mb-2">
           <Code className="w-4 h-4 text-violet-400" />
           <h3 className="font-semibold" style={{fontFamily:"var(--font-grotesk)"}}>Your API Key</h3>

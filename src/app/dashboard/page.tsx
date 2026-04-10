@@ -22,8 +22,8 @@ export default async function DashboardPage() {
   ]);
 
   const stats = [
-    { label: "Wallet Balance", value: formatNGN(user?.balance ?? 0), icon: Wallet, color: "text-emerald-400", bg: "bg-emerald-500/10", href: "/dashboard/wallet" },
-    { label: "Total Orders", value: totalOrders.toString(), icon: ShoppingCart, color: "text-blue-400", bg: "bg-blue-500/10", href: "/dashboard/orders" },
+    { label: "Wallet Balance", value: formatNGN(user?.balance ?? 0), icon: Wallet, color: "text-emerald-400", bg: "bg-white", href: "/dashboard/wallet" },
+    { label: "Total Orders", value: totalOrders.toString(), icon: ShoppingCart, color: "text-blue-400", bg: "bg-white", href: "/dashboard/orders" },
     { label: "Active Orders", value: pendingOrders.toString(), icon: Clock, color: "text-yellow-400", bg: "bg-yellow-500/10", href: "/dashboard/orders?status=active" },
     { label: "Completed", value: completedOrders.toString(), icon: CheckCircle, color: "text-violet-400", bg: "bg-violet-500/10", href: "/dashboard/orders?status=completed" },
   ];
@@ -51,7 +51,7 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s) => (
           <Link key={s.label} href={s.href}
-            className="surface-2 border-subtle rounded-2xl p-5 hover:border-violet-500/20 transition-all group">
+            className="bg-background rounded-2xl p-5 hover:border-violet-500/20 transition-all group">
             <div className={`w-9 h-9 rounded-xl ${s.bg} flex items-center justify-center mb-3`}>
               <s.icon className={`w-4 h-4 ${s.color}`} />
             </div>
@@ -61,13 +61,13 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      <div className="surface-2 border-subtle rounded-2xl overflow-hidden">
+      <div className=" border-subtle rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between">
           <h3 className="font-semibold" style={{fontFamily:"var(--font-grotesk)"}}>Recent Orders</h3>
           <Link href="/dashboard/orders" className="text-sm text-violet-400 hover:text-violet-300">View all</Link>
         </div>
         {recentOrders.length === 0 ? (
-          <div className="px-6 py-12 text-center text-white/30">
+          <div className="px-6 py-12 text-center text-white/30 bg-white">
             <ShoppingCart className="w-8 h-8 mx-auto mb-3 opacity-30" />
             <p>No orders yet.</p>
             <Link href="/dashboard/new-order" className="mt-3 inline-block text-violet-400 text-sm">Place your first order →</Link>

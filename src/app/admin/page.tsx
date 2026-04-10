@@ -19,7 +19,15 @@ export default async function AdminOverview() {
   const recentOrders = await prisma.order.findMany({
     take: 10, orderBy: { createdAt: "desc" },
     include: { user: { select:{ email:true } }, service: true },
-  });
+  }) as Array<{
+    id: string;
+    user: { email: string };
+    service: { name: string };
+    quantity: number;
+    charge: number;
+    status: string;
+    createdAt: string | Date;
+  }>;
 
   return (
     <div className="space-y-6">
