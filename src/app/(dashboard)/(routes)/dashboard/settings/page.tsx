@@ -30,17 +30,17 @@ export default function SettingsPage() {
         </div>
         <form onSubmit={handleSave} className="space-y-4">
           <div>
-            <label className="text-xs text-white/50 mb-1.5 block">Full Name</label>
+            <label className="text-xs text-foreground/50 mb-1.5 block">Full Name</label>
             <input value={name} onChange={e=>setName(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-violet-500/40" />
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground placeholder-white/20 focus:outline-none focus:border-violet-500/40" />
           </div>
           <div>
-            <label className="text-xs text-white/50 mb-1.5 block">Email</label>
+            <label className="text-xs text-foreground/50 mb-1.5 block">Email</label>
             <input value={session?.user?.email || ""} disabled
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white/40 cursor-not-allowed" />
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground cursor-not-allowed" />
           </div>
           <button type="submit" disabled={saving}
-            className="px-6 py-2.5 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white text-sm font-medium rounded-xl transition-colors">
+            className="px-6 py-2.5 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-foreground text-sm font-medium rounded-xl transition-colors">
             {saving ? "Saving..." : "Save Changes"}
           </button>
         </form>

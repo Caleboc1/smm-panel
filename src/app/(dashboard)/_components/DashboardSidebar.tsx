@@ -11,7 +11,7 @@ export function DashboardSidebar() {
       <div className="h-16 px-6 border-b border-gray-100 flex items-center flex-shrink-0">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg">
           <div className="w-7 h-7 rounded-lg bg-violet-600 flex items-center justify-center">
-            <Zap className="w-3.5 h-3.5 text-white" />
+            <Zap className="w-3.5 h-3.5 text-foreground" />
           </div>
           <span className="text-gray-900">{APP_NAME}</span>
         </Link>

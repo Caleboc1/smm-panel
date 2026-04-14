@@ -19,13 +19,13 @@ export default function ApiDocsPage() {
             <div className="w-10 h-10 bg-violet-600/20 rounded-xl flex items-center justify-center"><Code className="w-5 h-5 text-violet-400"/></div>
             <h1 className="text-3xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>API Documentation</h1>
           </div>
-          <p className="text-white/50 leading-relaxed">Build your own SMM reseller business on top of our infrastructure. All requests use POST to a single endpoint. Authentication uses your API key available in your dashboard.</p>
+          <p className="text-foreground/50 leading-relaxed">Build your own SMM reseller business on top of our infrastructure. All requests use POST to a single endpoint. Authentication uses your API key available in your dashboard.</p>
         </div>
 
         <div className="surface-2 border-subtle rounded-2xl p-5 mb-8">
-          <p className="text-xs text-white/40 mb-2 uppercase tracking-wide font-medium">Base Endpoint</p>
+          <p className="text-xs text-foreground mb-2 uppercase tracking-wide font-medium">Base Endpoint</p>
           <code className="text-violet-400 text-sm">{BASE}/api/v1</code>
-          <p className="text-xs text-white/30 mt-2">All requests: <span className="text-white/50">POST</span> with <span className="text-white/50">Content-Type: application/json</span></p>
+          <p className="text-xs text-foreground/30 mt-2">All requests: <span className="text-foreground/50">POST</span> with <span className="text-foreground/50">Content-Type: application/json</span></p>
         </div>
 
         <div className="space-y-6">
@@ -33,16 +33,16 @@ export default function ApiDocsPage() {
             <div key={ep.action} className="surface-2 border-subtle rounded-2xl overflow-hidden">
               <div className="px-6 py-4 border-b border-white/5 flex items-center gap-3">
                 <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs font-bold rounded">POST</span>
-                <code className="text-white/70 text-sm">action: <span className="text-violet-400">{ep.action}</span></code>
+                <code className="text-foreground/70 text-sm">action: <span className="text-violet-400">{ep.action}</span></code>
               </div>
               <div className="p-6 space-y-4">
-                <p className="text-white/50 text-sm">{ep.desc}</p>
+                <p className="text-foreground/50 text-sm">{ep.desc}</p>
                 <div>
-                  <p className="text-xs text-white/30 mb-2 uppercase tracking-wide">Request Body</p>
-                  <pre className="bg-black/40 rounded-xl p-4 text-xs text-white/60 overflow-x-auto">{ep.body}</pre>
+                  <p className="text-xs text-foreground/30 mb-2 uppercase tracking-wide">Request Body</p>
+                  <pre className="bg-black/40 rounded-xl p-4 text-xs text-foreground/60 overflow-x-auto">{ep.body}</pre>
                 </div>
                 <div>
-                  <p className="text-xs text-white/30 mb-2 uppercase tracking-wide">Response</p>
+                  <p className="text-xs text-foreground/30 mb-2 uppercase tracking-wide">Response</p>
                   <pre className="bg-black/40 rounded-xl p-4 text-xs text-emerald-400/70 overflow-x-auto">{ep.response}</pre>
                 </div>
               </div>

@@ -13,8 +13,8 @@ export function DashboardTopbar({ user }: { user: any }) {
 
   return (
     <header className="h-16 border-b border-white/5 bg-white backdrop-blur px-4 sm:px-6 flex items-center justify-between">
-      <h1 className="text-white/60 text-sm font-medium hidden sm:block">
-        Welcome back, <span className="text-white">{user?.name || user?.email}</span>
+      <h1 className="text-foreground/60 text-sm font-medium hidden sm:block">
+        Welcome back, <span className="text-foreground">{user?.name || user?.email}</span>
       </h1>
       <div className="flex items-center gap-4 ml-auto">
         <Link href="/dashboard/wallet" className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm transition-colors">

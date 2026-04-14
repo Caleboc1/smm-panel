@@ -1,6 +1,6 @@
 'use client';
 
-import { LayoutDashboard, ShoppingCart, ClipboardList, Wallet, Code, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, ClipboardList, Wallet, Code, Settings, LogOut, Globe } from 'lucide-react';
 import { SidebarItem } from './SidebarItem';
 import { signOut, useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -13,6 +13,7 @@ const mainRoutes = [
   { icon: ClipboardList,   label: 'My Orders',  href: '/dashboard/orders' },
   { icon: Wallet,          label: 'Wallet',     href: '/dashboard/wallet' },
   { icon: Code,            label: 'API Access', href: '/dashboard/api' },
+  { href: "/admin/upstream", label: "Peakerr Services", icon: Globe },
 ];
 
 const actionRoutes = [

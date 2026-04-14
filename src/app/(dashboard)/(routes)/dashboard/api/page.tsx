@@ -33,9 +33,9 @@ export default function ApiPage() {
           <Code className="w-4 h-4 text-violet-400" />
           <h3 className="font-semibold" style={{fontFamily:"var(--font-grotesk)"}}>Your API Key</h3>
         </div>
-        <p className="text-white/40 text-sm mb-4">Use this key to access the API. Keep it secret.</p>
+        <p className="text-foreground text-sm mb-4">Use this key to access the API. Keep it secret.</p>
         <div className="flex items-center gap-3">
-          <div className="flex-1 bg-black/30 border border-white/10 rounded-xl px-4 py-3 font-mono text-sm text-white/70 truncate">
+          <div className="flex-1 bg-black/30 border border-white/10 rounded-xl px-4 py-3 font-mono text-sm text-foreground/70 truncate">
             {apiKey || "—"}
           </div>
           <button onClick={()=>copy(apiKey)} className="flex items-center gap-2 px-4 py-3 bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 text-violet-300 rounded-xl text-sm transition-colors">
@@ -48,20 +48,20 @@ export default function ApiPage() {
       <div className="surface-2 border-subtle rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-white/5">
           <h3 className="font-semibold" style={{fontFamily:"var(--font-grotesk)"}}>API Reference</h3>
-          <p className="text-white/40 text-sm mt-1">All requests are POST to <code className="text-violet-400">{BASE}/api/v1</code></p>
+          <p className="text-foreground text-sm mt-1">All requests are POST to <code className="text-violet-400">{BASE}/api/v1</code></p>
         </div>
         <div className="divide-y divide-white/[0.04]">
           {endpoints.map((ep) => (
             <div key={ep.action} className="p-6">
               <div className="flex items-center gap-3 mb-2">
                 <span className="px-2 py-0.5 text-xs font-bold bg-blue-500/20 text-blue-400 rounded">{ep.method}</span>
-                <code className="text-sm text-white/70">{ep.path}</code>
-                <span className="text-xs text-white/30">action: <span className="text-violet-400">{ep.action}</span></span>
+                <code className="text-sm text-foreground/70">{ep.path}</code>
+                <span className="text-xs text-foreground/30">action: <span className="text-violet-400">{ep.action}</span></span>
               </div>
-              <p className="text-sm text-white/50 mb-3">{ep.desc}</p>
+              <p className="text-sm text-foreground/50 mb-3">{ep.desc}</p>
               <div className="relative bg-black/40 rounded-xl p-4">
-                <pre className="text-xs text-white/60 overflow-x-auto">{ep.body}</pre>
-                <button onClick={()=>copy(ep.body)} className="absolute top-3 right-3 text-white/20 hover:text-white/50 transition-colors">
+                <pre className="text-xs text-foreground/60 overflow-x-auto">{ep.body}</pre>
+                <button onClick={()=>copy(ep.body)} className="absolute top-3 right-3 text-foreground/20 hover:text-foreground/50 transition-colors">
                   <Copy className="w-3.5 h-3.5"/>
                 </button>
               </div>

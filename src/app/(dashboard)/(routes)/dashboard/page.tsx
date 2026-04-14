@@ -9,7 +9,13 @@ export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
   const userId = session!.user.id;
 
-  const [user, totalOrders, pendingOrders, completedOrders, recentOrders] = await Promise.all([
+  const [user, totalOrders, pendingOrders, completedOrders, recentOrders]: [
+    { balance: number | null; name: string | null } | null,
+    number,
+    number,
+    number,
+    { id: string; service: { name: string }; quantity: number; charge: number; status: string; createdAt: string }[]
+  ] = await Promise.all([
     prisma.user.findUnique({ where: { id: userId }, select: { balance: true, name: true } }),
     prisma.order.count({ where: { userId } }),
     prisma.order.count({ where: { userId, status: { in: ["PENDING", "PROCESSING", "ACTIVE"] } } }),
@@ -43,7 +49,7 @@ export default async function DashboardPage() {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>Dashboard</h2>
         <Link href="/dashboard/new-order"
-          className="flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium rounded-xl transition-colors">
+          className="flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-500 text-foreground text-sm font-medium rounded-xl transition-colors">
           <Plus className="w-4 h-4" /> New Order
         </Link>
       </div>
@@ -67,7 +73,7 @@ export default async function DashboardPage() {
           <Link href="/dashboard/orders" className="text-sm text-violet-400 hover:text-violet-300">View all</Link>
         </div>
         {recentOrders.length === 0 ? (
-          <div className="px-6 py-12 text-center text-white/30 bg-white">
+          <div className="px-6 py-12 text-center text-foreground/30 bg-white">
             <ShoppingCart className="w-8 h-8 mx-auto mb-3 opacity-30" />
             <p>No orders yet.</p>
             <Link href="/dashboard/new-order" className="mt-3 inline-block text-violet-400 text-sm">Place your first order →</Link>
@@ -78,22 +84,22 @@ export default async function DashboardPage() {
               <thead>
                 <tr className="bg-white/[0.02]">
                   {["Service","Qty","Charge","Status","Date"].map(h => (
-                    <th key={h} className="text-left px-4 py-3 text-white/30 font-medium text-xs uppercase tracking-wide">{h}</th>
+                    <th key={h} className="text-left px-4 py-3 text-foreground/30 font-medium text-xs uppercase tracking-wide">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {recentOrders.map(o => (
-                  <tr key={o.id} className="border-t border-white/[0.03] hover:bg-white/[0.02]">
-                    <td className="px-4 py-3 text-white/80 max-w-[200px] truncate">{o.service.name}</td>
-                    <td className="px-4 py-3 text-white/50 font-mono">{o.quantity.toLocaleString()}</td>
+                  <tr key={o.id} className="border-t border-white/3 hover:bg-white/[0.02]">
+                    <td className="px-4 py-3 text-foreground/80 max-w-[200px] truncate">{o.service.name}</td>
+                    <td className="px-4 py-3 text-foreground/50 font-mono">{o.quantity.toLocaleString()}</td>
                     <td className="px-4 py-3 text-emerald-400 font-mono">{formatNGN(o.charge)}</td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[o.status] || "text-white/40"}`}>
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[o.status] || "text-foreground"}`}>
                         {o.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-white/30 text-xs">{new Date(o.createdAt).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-foreground/30 text-xs">{new Date(o.createdAt).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>

@@ -34,29 +34,29 @@ export default function RegisterPage() {
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 font-bold text-xl mb-6" style={{fontFamily:"var(--font-grotesk)"}}>
-            <div className="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center"><Zap className="w-5 h-5 text-white" /></div>
+            <div className="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center"><Zap className="w-5 h-5 text-foreground" /></div>
             <span className="text-gradient">{process.env.NEXT_PUBLIC_APP_NAME || "SMMPanel"}</span>
           </Link>
           <h1 className="text-2xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>Create your account</h1>
-          <p className="text-white/40 text-sm mt-1">Start growing in minutes</p>
+          <p className="text-foreground text-sm mt-1">Start growing in minutes</p>
         </div>
         <div className="surface-2 border-subtle rounded-2xl p-8">
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {(["name","email","password"] as const).map((field) => (
               <div key={field}>
-                <label className="text-sm text-white/60 mb-1.5 block capitalize">{field === "name" ? "Full Name" : field}</label>
+                <label className="text-sm text-foreground/60 mb-1.5 block capitalize">{field === "name" ? "Full Name" : field}</label>
                 <input type={field === "password" ? "password" : field === "email" ? "email" : "text"}
                   value={form[field]} onChange={e => setForm({...form, [field]: e.target.value})} required
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-violet-500/50 transition-colors"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground placeholder-white/20 focus:outline-none focus:border-violet-500/50 transition-colors"
                   placeholder={field === "name" ? "John Doe" : field === "email" ? "you@example.com" : "••••••••"} />
               </div>
             ))}
             <button type="submit" disabled={loading}
-              className="w-full py-3 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white font-semibold rounded-xl transition-colors">
+              className="w-full py-3 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-foreground font-semibold rounded-xl transition-colors">
               {loading ? "Creating account..." : "Create Account"}
             </button>
           </form>
-          <p className="text-center text-white/40 text-sm mt-6">
+          <p className="text-center text-foreground text-sm mt-6">
             Already have an account?{" "}
             <Link href="/login" className="text-violet-400 hover:text-violet-300">Sign in</Link>
           </p>

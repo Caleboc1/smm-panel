@@ -34,17 +34,17 @@ export default function OrdersPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>My Orders <span className="text-white/30 text-lg">({total})</span></h2>
-        <button onClick={() => load(page)} className="flex items-center gap-2 px-3 py-2 text-sm text-white/50 hover:text-white border border-white/10 hover:border-white/20 rounded-xl transition-all">
+        <h2 className="text-2xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>My Orders <span className="text-foreground/30 text-lg">({total})</span></h2>
+        <button onClick={() => load(page)} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground/50 hover:text-foreground border border-white/10 hover:border-white/20 rounded-xl transition-all">
           <RefreshCw className="w-3.5 h-3.5" /> Refresh
         </button>
       </div>
 
       <div className=" border-subtle rounded-2xl overflow-hidden">
         {loading ? (
-          <div className="py-16 text-center text-white/30">Loading orders...</div>
+          <div className="py-16 text-center text-foreground/30">Loading orders...</div>
         ) : orders.length === 0 ? (
-          <div className="py-16 text-center text-white/30">
+          <div className="py-16 text-center text-foreground/30">
             <ClipboardList className="w-8 h-8 mx-auto mb-3 opacity-30" />
             <p>No orders yet</p>
           </div>
@@ -54,27 +54,27 @@ export default function OrdersPage() {
               <thead className="bg-white/[0.02]">
                 <tr>
                   {["Order ID","Service","Link","Qty","Charge","Status","Date"].map(h => (
-                    <th key={h} className="text-left px-4 py-3 text-white/30 font-medium text-xs uppercase tracking-wide whitespace-nowrap">{h}</th>
+                    <th key={h} className="text-left px-4 py-3 text-foreground/30 font-medium text-xs uppercase tracking-wide whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {orders.map((o:any) => (
                   <tr key={o.id} className="border-t border-white/[0.03] hover:bg-white/[0.02]">
-                    <td className="px-4 py-3 text-white/30 font-mono text-xs">#{o.id.slice(-8)}</td>
-                    <td className="px-4 py-3 text-white/80 max-w-[180px]">
+                    <td className="px-4 py-3 text-foreground/30 font-mono text-xs">#{o.id.slice(-8)}</td>
+                    <td className="px-4 py-3 text-foreground/80 max-w-[180px]">
                       <div className="truncate text-xs">{o.service?.name}</div>
-                      <div className="text-white/30 text-xs">{o.service?.category?.platform}</div>
+                      <div className="text-foreground/30 text-xs">{o.service?.category?.platform}</div>
                     </td>
-                    <td className="px-4 py-3 text-white/40 text-xs max-w-[120px] truncate">{o.link}</td>
-                    <td className="px-4 py-3 text-white/60 font-mono text-xs">{o.quantity.toLocaleString()}</td>
+                    <td className="px-4 py-3 text-foreground text-xs max-w-[120px] truncate">{o.link}</td>
+                    <td className="px-4 py-3 text-foreground/60 font-mono text-xs">{o.quantity.toLocaleString()}</td>
                     <td className="px-4 py-3 text-emerald-400 font-mono text-xs">{formatNGN(o.charge)}</td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[o.status] || "text-white/40 bg-white/5"}`}>
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[o.status] || "text-foreground bg-white/5"}`}>
                         {o.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-white/30 text-xs whitespace-nowrap">
+                    <td className="px-4 py-3 text-foreground/30 text-xs whitespace-nowrap">
                       {new Date(o.createdAt).toLocaleDateString("en-NG", { day:"numeric", month:"short", year:"numeric" })}
                     </td>
                   </tr>
@@ -85,7 +85,7 @@ export default function OrdersPage() {
         )}
         {total > 20 && (
           <div className="px-4 py-3 border-t border-white/5 flex items-center justify-between">
-            <span className="text-xs text-white/30">Showing {Math.min(page*20, total)} of {total}</span>
+            <span className="text-xs text-foreground/30">Showing {Math.min(page*20, total)} of {total}</span>
             <div className="flex gap-2">
               <button disabled={page === 1} onClick={() => setPage(p=>p-1)}
                 className="px-3 py-1.5 text-xs border border-white/10 rounded-lg disabled:opacity-30 hover:border-white/20 transition-colors">Prev</button>

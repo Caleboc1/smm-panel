@@ -22,7 +22,7 @@ export function DashboardSidebar() {
       <div className="h-16 flex items-center px-6 border-b border-white/5">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg" style={{ fontFamily: "var(--font-grotesk)" }}>
           <div className="w-7 h-7 rounded-lg bg-violet-600 flex items-center justify-center">
-            <Zap className="w-3.5 h-3.5 text-white" />
+            <Zap className="w-3.5 h-3.5 text-foreground" />
           </div>
           <span className="text-gradient">{APP_NAME}</span>
         </Link>
@@ -36,7 +36,7 @@ export function DashboardSidebar() {
                 "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
                 active
                   ? "bg-violet-600/20 text-violet-300 border border-violet-500/20"
-                  : "text-white/50 hover:text-white/80 hover:bg-white/5"
+                  : "text-foreground/50 hover:text-foreground/80 hover:bg-white/5"
               )}>
               <l.icon className="w-4 h-4" />
               {l.label}
@@ -46,7 +46,7 @@ export function DashboardSidebar() {
       </nav>
       <div className="px-3 pb-4">
         <Link href="/"
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-white/40 hover:text-white/70 hover:bg-white/5 transition-all">
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-foreground hover:text-foreground/70 hover:bg-white/5 transition-all">
           <LogOut className="w-4 h-4" /> Back to Home
         </Link>
       </div>

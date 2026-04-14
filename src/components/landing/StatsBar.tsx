@@ -13,7 +13,7 @@ export function StatsBar({ stats }: Props) {
         {items.map((item) => (
           <div key={item.label} className="text-center">
             <div className="text-2xl sm:text-3xl font-bold text-gradient mb-1" style={{fontFamily:"var(--font-grotesk)"}}>{item.value}</div>
-            <div className="text-sm text-white/40">{item.label}</div>
+            <div className="text-sm text-foreground">{item.label}</div>
           </div>
         ))}
       </div>
