@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
           include: { category: true },
           orderBy: { id: "asc" },
         });
-        return NextResponse.json(services.map((s) => ({
+        return NextResponse.json(services.map((s: { id: number; name: string; category: { name: string }; type: string; rate: number; minOrder: number; maxOrder: number; refill: boolean; cancel: boolean }) => ({
           service: s.id, name: s.name, category: s.category.name,
           type: s.type, rate: s.rate, min: s.minOrder, max: s.maxOrder,
           refill: s.refill, cancel: s.cancel,

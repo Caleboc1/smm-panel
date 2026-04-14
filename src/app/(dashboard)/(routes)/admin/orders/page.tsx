@@ -11,7 +11,16 @@ export default async function AdminOrdersPage() {
   const orders = await prisma.order.findMany({
     take: 100, orderBy: { createdAt: "desc" },
     include: { user:{ select:{ email:true } }, service:true },
-  });
+  }) as Array<{
+    id: string;
+    user: { email: string };
+    service: { name: string };
+    link: string;
+    quantity: number;
+    charge: number;
+    status: string;
+    createdAt: string | Date;
+  }>;
   const total = await prisma.order.count();
   return (
     <div className="space-y-6">
