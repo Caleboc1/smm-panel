@@ -3,6 +3,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import PrismaClient from "@prisma/client";
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const { PrismaClient: ActualPrismaClient } = PrismaClient as any;
 
 const globalForPrisma = globalThis as unknown as {

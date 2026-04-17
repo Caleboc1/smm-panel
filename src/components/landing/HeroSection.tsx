@@ -9,7 +9,7 @@ export function HeroSection() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300 text-sm mb-8">
           <Zap className="w-3.5 h-3.5" />
-          <span>Nigeria's Fastest SMM Panel</span>
+          <span>Nigeria&apos;s Fastest SMM Panel</span>
         </div>
 
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold leading-tight mb-6" style={{fontFamily:"var(--font-grotesk)"}}>

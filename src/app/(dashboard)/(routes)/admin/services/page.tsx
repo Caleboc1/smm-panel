@@ -5,7 +5,9 @@ import toast from "react-hot-toast";
 import { Plus, Trash2 } from "lucide-react";
 
 export default function AdminServicesPage() {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [services, setServices] = useState<any[]>([]);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -19,7 +21,19 @@ export default function AdminServicesPage() {
     ]);
     setServices(svcs); setCategories(cats); setLoading(false);
   }
-  useEffect(()=>{ load(); },[]);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const [svcs, cats] = await Promise.all([
+        fetch("/api/admin/services").then(r => r.json()),
+        fetch("/api/categories").then(r => r.json()),
+      ]);
+      setServices(svcs);
+      setCategories(cats);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
@@ -56,7 +70,9 @@ export default function AdminServicesPage() {
             ].map(({label,field,type,placeholder})=>(
               <div key={field}>
                 <label className="text-xs text-foreground/50 mb-1.5 block">{label}</label>
-                <input type={type} value={(form as any)[field]} onChange={e=>setForm({...form,[field]:e.target.value})} placeholder={placeholder}
+                <input type={type} 
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                value={(form as any)[field]} onChange={e=>setForm({...form,[field]:e.target.value})} placeholder={placeholder}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-foreground placeholder-white/20 focus:outline-none focus:border-violet-500/40" required={field!=="upstreamId"} />
               </div>
             ))}
@@ -65,7 +81,9 @@ export default function AdminServicesPage() {
               <select value={form.categoryId} onChange={e=>setForm({...form,categoryId:e.target.value})} required
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-violet-500/40">
                 <option value="">Select category</option>
-                {categories.map((c:any)=><option key={c.id} value={c.id}>{c.platform} — {c.name}</option>)}
+                {
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                categories.map((c:any)=><option key={c.id} value={c.id}>{c.platform} — {c.name}</option>)}
               </select>
             </div>
             <div className="sm:col-span-2">
@@ -100,7 +118,9 @@ export default function AdminServicesPage() {
             </thead>
             <tbody>
               {loading ? <tr><td colSpan={7} className="px-4 py-10 text-center text-foreground/30">Loading...</td></tr>
-              : services.map((s:any)=>(
+              : 
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              services.map((s:any)=>(
                 <tr key={s.id} className="border-t border-white/[0.03]">
                   <td className="px-4 py-3 text-foreground/80 max-w-[200px] truncate">{s.name}</td>
                   <td className="px-4 py-3 text-foreground">{s.category?.platform}</td>

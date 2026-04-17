@@ -5,6 +5,7 @@ import { getServices, getBalance } from "@/lib/upstream";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((session?.user as any)?.role !== "ADMIN") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }

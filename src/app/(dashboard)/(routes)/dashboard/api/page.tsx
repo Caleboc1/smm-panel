@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Code, Copy, Check, RefreshCw } from "lucide-react";
+import { Code, Copy, Check } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function ApiPage() {

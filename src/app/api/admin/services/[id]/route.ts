@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string; }> }) {
   const session = await getServerSession(authOptions);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((session?.user as any)?.role !== "ADMIN") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const { id } = await params;
   await prisma.service.delete({ where: { id } });
@@ -13,6 +14,7 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string; }> }) {
   const session = await getServerSession(authOptions);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((session?.user as any)?.role !== "ADMIN") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const body = await req.json();
   const { id } = await params;

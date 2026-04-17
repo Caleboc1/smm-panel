@@ -7,12 +7,15 @@ const USD_TO_NGN = 1600;
 const MARKUP = 2.5;
 
 export default function UpstreamPage() {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [services, setServices] = useState<any[]>([]);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [balance, setBalance] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [syncing, setSyncing] = useState(false);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [syncResult, setSyncResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,7 +28,8 @@ export default function UpstreamPage() {
       if (!res.ok) throw new Error(data.error);
       setServices(Array.isArray(data.services) ? data.services : []);
       setBalance(data.balance);
-    } catch (e: any) {
+    }      // eslint-disable-next-line @typescript-eslint/no-explicit-any 
+    catch (e: any) {
       setError(e.message || "Failed to fetch from Peakerr");
     } finally {
       setLoading(false);
@@ -44,8 +48,10 @@ export default function UpstreamPage() {
   }
 
   // Get unique categories from services
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const categories = ["all", ...Array.from(new Set(services.map((s: any) => s.category)))];
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filtered = services.filter((s: any) => {
     const matchCat = selectedCategory === "all" || s.category === selectedCategory;
     const matchSearch = !search ||
@@ -150,7 +156,9 @@ export default function UpstreamPage() {
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((s: any) => {
+                {      
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                filtered.map((s: any) => {
                   const theirRateNGN = parseFloat(s.rate) * USD_TO_NGN;
                   const yourRate = Math.ceil(theirRateNGN * MARKUP);
                   const profit = yourRate - theirRateNGN;

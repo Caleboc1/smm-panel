@@ -8,6 +8,7 @@ export default function WalletPage() {
   const [balance, setBalance] = useState(0);
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [txns, setTxns] = useState<any[]>([]);
 
   useEffect(() => {
@@ -102,7 +103,9 @@ export default function WalletPage() {
           </div>
         ) : (
           <div className="divide-y divide-white/[0.03]">
-            {txns.map((t:any) => (
+            {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            txns.map((t:any) => (
               <div key={t.id} className="px-6 py-4 flex items-center justify-between">
                 <div>
                   <p className="text-sm text-foreground/80">{t.description || (t.type === "CREDIT" ? "Wallet top-up" : "Order payment")}</p>

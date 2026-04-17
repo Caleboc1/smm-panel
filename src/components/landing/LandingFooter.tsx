@@ -15,7 +15,7 @@ export function LandingFooter() {
               </div>
               <span className="text-gradient">{APP_NAME}</span>
             </div>
-            <p className="text-foreground text-sm leading-relaxed">Nigeria's fastest and most affordable SMM panel. Trusted by creators, brands, and agencies.</p>
+            <p className="text-foreground text-sm leading-relaxed">Nigeria&apos;s fastest and most affordable SMM panel. Trusted by creators, brands, and agencies.</p>
           </div>
           <div>
             <h4 className="font-semibold mb-3 text-foreground/80">Services</h4>

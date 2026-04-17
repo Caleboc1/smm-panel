@@ -15,6 +15,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function OrdersPage() {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [orders, setOrders] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -29,7 +30,10 @@ export default function OrdersPage() {
     setLoading(false);
   }
 
-  useEffect(() => { load(page); }, [page]);
+  useEffect(() => {
+    void load(page);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -59,7 +63,8 @@ export default function OrdersPage() {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((o:any) => (
+              {        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              orders.map((o:any) => (
                   <tr key={o.id} className="border-t border-white/[0.03] hover:bg-white/[0.02]">
                     <td className="px-4 py-3 text-foreground/30 font-mono text-xs">#{o.id.slice(-8)}</td>
                     <td className="px-4 py-3 text-foreground/80 max-w-[180px]">

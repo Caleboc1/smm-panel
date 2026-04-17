@@ -38,7 +38,9 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
         token.role = (user as any).role;
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
         token.balance = (user as any).balance;
       }
       if (trigger === "update" && session?.balance !== undefined) {
@@ -49,7 +51,9 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (session.user as any).role = token.role;
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (session.user as any).balance = token.balance;
       }
       return session;

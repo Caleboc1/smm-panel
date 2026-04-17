@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 import { prisma } from "@/lib/prisma";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { HeroSection } from "@/components/landing/HeroSection";

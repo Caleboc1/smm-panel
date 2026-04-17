@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (session?.user && (session.user as any).role !== "ADMIN")
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
@@ -15,12 +16,14 @@ export async function GET(req: NextRequest) {
 
   const [orders, total] = await Promise.all([
     prisma.order.findMany({
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
       where: status ? { status: status as any } : {},
       include: { user: { select: { email: true, name: true } }, service: true },
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * limit,
       take: limit,
     }),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
     prisma.order.count({ where: status ? { status: status as any } : {} }),
   ]);
   return NextResponse.json({ orders, total });

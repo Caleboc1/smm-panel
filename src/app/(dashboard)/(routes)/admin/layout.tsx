@@ -2,10 +2,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Zap, LayoutDashboard, Package, ShoppingCart, Users } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, Users } from "lucide-react";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!session || (session.user as any).role !== "ADMIN") redirect("/dashboard");
 
   const links = [

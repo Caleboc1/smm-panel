@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { calcCharge } from "@/lib/utils";
-import { createOrder as upstreamCreate } from "@/lib/upstream";
 
 async function getUser(key: string) {
   return prisma.user.findUnique({ where: { apiKey: key } });
