@@ -1,11 +1,12 @@
 'use client';
 
-import { LayoutDashboard, ShoppingCart, ClipboardList, Wallet, Code, Settings, LogOut, Globe } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, ClipboardList, Wallet, Code, Settings, LogOut, Package, Users, Globe, ArrowLeft } from 'lucide-react';
 import { SidebarItem } from './SidebarItem';
 import { signOut, useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { formatNGN } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 const mainRoutes = [
   { icon: LayoutDashboard, label: 'Overview',   href: '/dashboard' },
@@ -13,7 +14,14 @@ const mainRoutes = [
   { icon: ClipboardList,   label: 'My Orders',  href: '/dashboard/orders' },
   { icon: Wallet,          label: 'Wallet',     href: '/dashboard/wallet' },
   { icon: Code,            label: 'API Access', href: '/dashboard/api' },
-  { href: "/admin/upstream", label: "Peakerr Services", icon: Globe },
+];
+
+const adminRoutes = [
+  { icon: LayoutDashboard, label: 'Overview',         href: '/admin' },
+  { icon: Package,         label: 'Services',         href: '/admin/services' },
+  { icon: ShoppingCart,    label: 'Orders',           href: '/admin/orders' },
+  { icon: Users,           label: 'Users',            href: '/admin/users' },
+  { icon: Globe,           label: 'Peakerr Services', href: '/admin/upstream' },
 ];
 
 const actionRoutes = [
@@ -31,6 +39,9 @@ function getInitials(name: string) {
 export function SidebarRoutes() {
   const { data: session } = useSession();
   const [balance, setBalance] = useState<number | null>(null);
+  const pathname = usePathname();
+
+  const isAdminArea = pathname?.startsWith('/admin');
 
   useEffect(() => {
     fetch('/api/user').then(r => r.json()).then(d => setBalance(d?.balance ?? 0));
@@ -44,11 +55,20 @@ export function SidebarRoutes() {
       : route
   );
 
+  const activeRoutes = isAdminArea ? adminRoutes : mainRoutes;
+
   return (
     <div className="flex flex-col w-full h-full">
-      {/* Main nav */}
+      {/* Section label */}
+      {isAdminArea && (
+        <div className="px-4 py-2 mb-1">
+          <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Admin Panel</span>
+        </div>
+      )}
+
+      {/* Nav routes */}
       <div className="flex flex-col w-full">
-        {mainRoutes.map(route => (
+        {activeRoutes.map(route => (
           <SidebarItem
             key={route.href}
             icon={route.icon}
@@ -58,22 +78,29 @@ export function SidebarRoutes() {
         ))}
       </div>
 
-      {/* Push action routes to bottom */}
+      {/* Bottom section */}
       <div className="mt-auto w-full">
         <div className="w-full border-t border-gray-100 pt-2">
-          {updatedActionRoutes.map(route => (
+          {/* Back to dashboard link when in admin */}
+          {isAdminArea && (
+            <SidebarItem
+              icon={ArrowLeft}
+              label="User Dashboard"
+              href="/dashboard"
+            />
+          )}
+          {!isAdminArea && updatedActionRoutes.map(route => (
             <SidebarItem
               key={route.label}
               icon={route.icon}
               label={route.label}
               href={route.href}
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onClick={(route as any).onClick}
             />
           ))}
         </div>
 
-        {/* User card at bottom */}
+        {/* User card */}
         <div className="flex items-center gap-3 px-6 py-4 border-t border-gray-100 mt-2">
           <Avatar className="w-9 h-9">
             <AvatarFallback className="bg-violet-100 text-violet-700 text-sm font-bold">

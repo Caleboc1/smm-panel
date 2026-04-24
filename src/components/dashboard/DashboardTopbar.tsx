@@ -1,30 +1,39 @@
 "use client";
 import { formatNGN } from "@/lib/utils";
-import { Wallet } from "lucide-react";
+import { Wallet, Shield } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function DashboardTopbar({ user }: { user: any }) {
   const [balance, setBalance] = useState<number | null>(null);
+  const isAdmin = user?.role === "ADMIN";
 
   useEffect(() => {
     fetch("/api/user").then(r => r.json()).then(d => setBalance(d?.balance ?? 0));
   }, []);
 
   return (
-    <header className="h-16 border-b border-white/5 bg-white backdrop-blur px-4 sm:px-6 flex items-center justify-between">
-      <h1 className="text-foreground/60 text-sm font-medium hidden sm:block">
-        Welcome back, <span className="text-foreground">{user?.name || user?.email}</span>
+    <header className="h-16 border-b border-gray-200 bg-white px-4 sm:px-6 flex items-center justify-between">
+      <h1 className="text-gray-500 text-sm font-medium hidden sm:block">
+        Welcome back, <span className="text-gray-900">{user?.name || user?.email}</span>
       </h1>
-      <div className="flex items-center gap-4 ml-auto">
-        <Link href="/dashboard/wallet" className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm transition-colors">
-          <Wallet className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="font-mono text-emerald-400 font-medium">
+      <div className="flex items-center gap-3 ml-auto">
+        {/* Admin link — only shows for ADMIN role */}
+        {isAdmin && (
+          <Link href="/admin"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-violet-50 hover:bg-violet-100 border border-violet-200 text-violet-700 rounded-lg text-xs font-medium transition-colors">
+            <Shield className="w-3.5 h-3.5" />
+            Admin
+          </Link>
+        )}
+        <Link href="/dashboard/wallet"
+          className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 border border-gray-200 rounded-lg text-sm transition-colors">
+          <Wallet className="w-3.5 h-3.5 text-emerald-600" />
+          <span className="font-mono text-emerald-600 font-medium">
             {balance !== null ? formatNGN(balance) : "..."}
           </span>
         </Link>
-        <div className="w-8 h-8 rounded-full bg-violet-600/20 border border-violet-500/30 flex items-center justify-center text-violet-300 text-sm font-bold">
+        <div className="w-8 h-8 rounded-full bg-violet-100 border border-violet-200 flex items-center justify-center text-violet-700 text-sm font-bold">
           {(user?.name || user?.email || "U")[0].toUpperCase()}
         </div>
       </div>
