@@ -14,7 +14,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <div className="h-[80px] md:pl-62.5 fixed inset-y-0 w-full z-50">
        <DashboardTopbar user={session.user} />
       </div>
-      <div className=" h-full w-56 flex-col fixed inset-y-0 z-45">
+      <div className="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-45">
        <DashboardSidebar />
       </div>
       <main className="md:pl-67 pt-[80px] h-full pb-[80px] md:pb-0 bg-[#FCFCFC] dark:bg-background" >
