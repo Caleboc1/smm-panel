@@ -46,7 +46,7 @@ export function LandingNav() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-white/5 bg-[#0a0a0f] px-4 py-4 flex flex-col gap-4  font-space-mono">
+        <div className="md:hidden border-t border-white/5  px-4 py-4 flex flex-col gap-4  font-space-mono">
           <Link href="/services" className="text-foreground/70 hover:text-foreground">Services</Link>
           <Link href="/api-docs" className="text-foreground/70 hover:text-foreground">API</Link>
           {session ? (
