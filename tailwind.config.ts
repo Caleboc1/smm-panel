@@ -11,6 +11,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         grotesk: ["var(--font-grotesk)", "system-ui", "sans-serif"],
+        climate: ["var(--font-climate)", "sans-serif"],
       },
       colors: {
         accent: "#7c3aed",

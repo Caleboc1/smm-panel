@@ -64,7 +64,7 @@ export const MobileSidebar = () => {
 
   // Hide on desktop, show on mobile
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-700 shadow-lg">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-700 shadow-lg">
       <div className="flex justify-around items-center py-2 px-2">
         {routes.map((route) => {
           const Icon = route.icon;
@@ -74,7 +74,7 @@ export const MobileSidebar = () => {
             <Link
               key={route.href}
               href={route.href}
-              className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-[64px] ${
+              className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 min-w-16e ${
                 isActive 
                   ? 'text-violet-600 bg-violet-50 dark:bg-violet-950/50' 
                   : 'text-gray-500 hover:text-violet-600 dark:text-gray-400 dark:hover:text-violet-400'
