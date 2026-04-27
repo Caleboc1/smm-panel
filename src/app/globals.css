@@ -1,6 +1,7 @@
 /* app/globals.css */
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import "aos/dist/aos.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -44,6 +45,10 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --font-climate-crisis: var(--font-climate-crisis);
+  --font-space-mono: var(--font-space-mono);
+  --font-space-grotesk: var(--font-space-grotesk);
 }
 
 :root {
@@ -126,6 +131,19 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .font-climate-crisis {
+    font-family: var(--font-climate-crisis), sans-serif;
+  }
+
+  .font-space-mono {
+    font-family: var(--font-space-mono), monospace;
+  } 
+
+  .font-space-grotesk {
+    font-family: var(--font-space-grotesk), sans-serif;
+  }
+
 }
 
 .leaflet-container {
@@ -136,4 +154,26 @@
 
 .leaflet-popup-content-wrapper {
   border-radius: 8px;
+}
+
+@keyframes waveDiagonal {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 30% 30%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 70% 70%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.animated-grid-wave {
+  animation: waveDiagonal 12s ease-in-out infinite;
 }

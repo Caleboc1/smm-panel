@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { Menu, X, Zap } from "lucide-react";
+import Image from "next/image";
 
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "SMMPanel";
 
@@ -11,22 +12,20 @@ export function LandingNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-xl bg-[#0a0a0f]/80">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-xl bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl" style={{fontFamily:"var(--font-grotesk)"}}>
-          <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center">
-            <Zap className="w-4 h-4 text-foreground" />
-          </div>
+          <Image src={"/CalebSmmLogo.png"} alt="Logo" width={50} height={50} className="rounded-full" />
           <span className="text-gradient">{APP_NAME}</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8 text-sm text-foreground/60">
+        <div className="hidden md:flex items-center gap-8 text-sm text-foreground/60  font-space-mono font-medium">
           <Link href="/services" className="hover:text-foreground transition-colors">Services</Link>
           <Link href="/api-docs" className="hover:text-foreground transition-colors">API</Link>
           <Link href="#features" className="hover:text-foreground transition-colors">Features</Link>
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3  font-space-mono">
           {session ? (
             <Link href="/dashboard" className="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-foreground text-sm font-medium rounded-lg transition-colors">
               Dashboard
@@ -47,7 +46,7 @@ export function LandingNav() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-white/5 bg-[#0a0a0f] px-4 py-4 flex flex-col gap-4">
+        <div className="md:hidden border-t border-white/5 bg-[#0a0a0f] px-4 py-4 flex flex-col gap-4  font-space-mono">
           <Link href="/services" className="text-foreground/70 hover:text-foreground">Services</Link>
           <Link href="/api-docs" className="text-foreground/70 hover:text-foreground">API</Link>
           {session ? (

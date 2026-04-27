@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Geist, Climate_Crisis } from "next/font/google";
+import { Inter, Space_Grotesk, Geist, Climate_Crisis , Space_Mono} from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Toaster } from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import AOSProvider from "@/components/AOSProvider";
 
 
 const spaceGrotesk = Space_Grotesk({
@@ -13,6 +14,14 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
   preload: true,
 });
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  preload: true,
+});
+
 const climateCrisis = Climate_Crisis({
   variable: "--font-climate-crisis",
   subsets: ["latin"],
@@ -29,8 +38,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" >
-      <body   className={`${spaceGrotesk.variable} ${climateCrisis.variable} antialiased`}>
+      <body   className={`${spaceGrotesk.variable} ${climateCrisis.variable} ${spaceMono.variable} antialiased`}>
         <Providers>
+        <AOSProvider />
           {children}
           <Toaster position="top-right" toastOptions={{ style: { background: "#1a1a2e", color: "#fff", border: "1px solid #2d2d4e" } }} />
         </Providers>

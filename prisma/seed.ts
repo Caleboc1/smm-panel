@@ -11,7 +11,7 @@ async function main() {
     update: {},
     create: { email: "admin@yourpanel.com", password: adminPass, name: "Admin", role: "ADMIN" },
   });
-  console.log("✓ Admin:", admin.email);
+  // console.log("✓ Admin:", admin.email);
 
   // Categories
   const categoryData = [
@@ -64,12 +64,12 @@ async function main() {
           },
         ],
       });
-      console.log(`  ✓ Services created for: ${catDef.name}`);
+      // console.log(`  ✓ Services created for: ${catDef.name}`);
     }
   }
-  console.log("\n✅ Seed complete!");
-  console.log("   Admin login: admin@yourpanel.com / admin123");
-  console.log("   ⚠️  Change the admin password immediately after first login!");
+  // console.log("\n✅ Seed complete!");
+  // console.log("   Admin login: admin@yourpanel.com / admin123");
+  // console.log("   ⚠️  Change the admin password immediately after first login!");
 }
 
 main().catch(console.error).finally(() => prisma.$disconnect());

@@ -8,7 +8,7 @@ export function ServicesPreview({ services }: { services: any[] }) {
     <section className="py-20 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-10">
-          <h2 className="text-3xl font-bold" style={{fontFamily:"var(--font-grotesk)"}}>Popular Services</h2>
+          <h2 className="text-3xl font-bold" style={{fontFamily:"var(--font-climate-crisis)"}}>Popular Services</h2>
           <Link href="/services" className="flex items-center gap-1 text-violet-400 hover:text-violet-300 text-sm font-medium">
             View all <ArrowRight className="w-4 h-4" />
           </Link>
@@ -21,7 +21,7 @@ export function ServicesPreview({ services }: { services: any[] }) {
           <div className="overflow-x-auto rounded-2xl border border-white/5">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/5 bg-white/[0.02]">
+                <tr className="border-b border-white/5 bg-white/[0.02] font-space-mono">
                   <th className="text-left px-4 py-3 text-foreground font-medium">Service</th>
                   <th className="text-left px-4 py-3 text-foreground font-medium hidden md:table-cell">Platform</th>
                   <th className="text-right px-4 py-3 text-foreground font-medium">Rate / 1K</th>
@@ -29,7 +29,7 @@ export function ServicesPreview({ services }: { services: any[] }) {
                   <th className="text-right px-4 py-3 text-foreground font-medium hidden sm:table-cell">Max</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="font-space-mono">
                 { 
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 services.map((s: any) => (

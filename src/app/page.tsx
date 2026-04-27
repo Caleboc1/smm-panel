@@ -33,7 +33,6 @@ export default async function HomePage() {
     <main className="min-h-screen bg-gray-50 overflow-x-hidden">
       <LandingNav />
       <HeroSection />
-      <StatsBar stats={stats} />
       <PlatformsSection />
       <FeaturesSection />
       <ServicesPreview services={services} />
