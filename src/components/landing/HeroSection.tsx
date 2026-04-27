@@ -40,7 +40,7 @@ export function HeroSection() {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300 text-[10px] sm:text-xs font-semibold tracking-wider uppercase mb-6 sm:mb-8">
           <span className="w-1.5 h-1.5 bg-violet-400 rounded-full animate-pulse" />
-          Nigeria's #1 SMM Panel
+          Nigeria&apos;s #1 SMM Panel
         </div>
 
         {/* Headline — Climate Crisis font */}

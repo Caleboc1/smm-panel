@@ -95,6 +95,7 @@ export function SidebarRoutes() {
               icon={route.icon}
               label={route.label}
               href={route.href}
+               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onClick={(route as any).onClick}
             />
           ))}

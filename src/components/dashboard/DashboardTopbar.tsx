@@ -3,7 +3,7 @@ import { formatNGN } from "@/lib/utils";
 import { Wallet, Shield } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function DashboardTopbar({ user }: { user: any }) {
   const [balance, setBalance] = useState<number | null>(null);
   const isAdmin = user?.role === "ADMIN";
