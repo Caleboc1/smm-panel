@@ -4,7 +4,8 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { Zap, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
 
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "SMMPanel";
 
@@ -25,7 +26,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-violet-50 flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden font-space-mono">
+       <div className="absolute inset-0 pointer-events-none animated-grid-wave"
+        style={{
+          backgroundImage: "linear-gradient(rgba(124,58,237,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.06) 1px,transparent 1px)",
+          backgroundSize: "48px 48px"
+        }} />
       {/* Background blobs */}
       <div className="absolute top-[-80px] right-[-80px] w-[300px] h-[300px] bg-violet-200 rounded-full opacity-40 pointer-events-none" />
       <div className="absolute bottom-[-60px] left-[-60px] w-[220px] h-[220px] bg-purple-200 rounded-full opacity-40 pointer-events-none" />
@@ -43,19 +49,13 @@ export default function LoginPage() {
         {/* Heading above card */}
         <div className="text-center mb-6">
           <p className="text-xs font-bold text-violet-600 uppercase tracking-widest mb-2">Welcome back</p>
-          <h1 className="text-3xl font-extrabold text-[#1e1b4b] leading-tight">
-            Sign in to<br />your panel
-          </h1>
         </div>
 
         <div className="bg-white rounded-2xl p-8 border border-violet-100 shadow-xl shadow-violet-100/50">
           {/* Logo */}
           <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-8 h-8 bg-violet-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-bold text-[#1e1b4b]">{APP_NAME}</span>
-          </div>
+             <Image src={"/CalebSmmLogo.png"} alt="Logo" width={50} height={50} className="rounded-full" />
+              </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
