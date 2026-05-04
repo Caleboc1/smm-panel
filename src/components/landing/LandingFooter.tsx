@@ -12,6 +12,7 @@ export function LandingFooter() {
         style={{ backgroundImage: "linear-gradient(rgba(124,58,237,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.06) 1px,transparent 1px)", backgroundSize: "48px 48px" }} />
 
       {/* Blobs */}
+      
       <div className="absolute -top-30 -left-20 w-100 h-100 rounded-full pointer-events-none"
         style={{ background: "radial-gradient(circle,rgba(124,58,237,.35) 0%,transparent 70%)" }} />
       <div className="absolute -bottom-25 -right-20 w-90 h-90 rounded-full pointer-events-none"
