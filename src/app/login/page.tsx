@@ -62,7 +62,7 @@ export default function LoginPage() {
               <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">Email address</label>
               <input type="email" value={email} onChange={e => setEmail(e.target.value)} required
                 className="w-full px-4 py-3 border-[1.5px] border-gray-200 rounded-xl text-sm text-gray-900 bg-gray-50 focus:outline-none focus:border-violet-500 focus:bg-white focus:ring-2 focus:ring-violet-500/10 transition-all"
-                placeholder="you@example.com" />
+                placeholder="Enter your email" />
             </div>
             <div>
               <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">Password</label>

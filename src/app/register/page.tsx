@@ -64,8 +64,8 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {[
-              { key: "name" as const, label: "Full name", type: "text", placeholder: "John Doe" },
-              { key: "email" as const, label: "Email address", type: "email", placeholder: "you@example.com" },
+              { key: "name" as const, label: "Full name", type: "text", placeholder: "Enter your fullname" },
+              { key: "email" as const, label: "Email address", type: "email", placeholder: "Enter your email" },
               { key: "password" as const, label: "Password", type: "password", placeholder: "Min. 8 characters" },
             ].map(({ key, label, type, placeholder }) => (
               <div key={key}>
