@@ -61,6 +61,7 @@ export default function RegisterPage() {
               <Image src={"/CalebSmmLogo.png"} alt="Logo" width={50} height={50} className="rounded-full" />
   
           </div>
+          
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {[
