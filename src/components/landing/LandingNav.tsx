@@ -20,9 +20,11 @@ export function LandingNav() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8 text-sm text-foreground/60  font-space-mono font-medium">
+          <Link href="/about" className="hover:text-foreground transition-colors">About</Link>
           <Link href="/services" className="hover:text-foreground transition-colors">Services</Link>
           <Link href="/api-docs" className="hover:text-foreground transition-colors">API</Link>
           <Link href="#features" className="hover:text-foreground transition-colors">Features</Link>
+          <Link href="/contact" className="hover:text-foreground transition-colors">Contact</Link>
         </div>
 
         <div className="hidden md:flex items-center gap-3  font-space-mono">
@@ -47,8 +49,10 @@ export function LandingNav() {
 
       {open && (
         <div className="md:hidden border-t border-white/5  px-4 py-4 flex flex-col gap-4  font-space-mono">
+          <Link href="/about" className="text-foreground/70 hover:text-foreground">About</Link>
           <Link href="/services" className="text-foreground/70 hover:text-foreground">Services</Link>
           <Link href="/api-docs" className="text-foreground/70 hover:text-foreground">API</Link>
+          <Link href="/contact" className="text-foreground/70 hover:text-foreground">Contact</Link>
           {session ? (
             <Link href="/dashboard" className="text-center px-4 py-2 bg-violet-600 text-foreground rounded-lg">Dashboard</Link>
           ) : (

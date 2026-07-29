@@ -3,6 +3,7 @@ import { Zap } from "lucide-react";
 import Image from "next/image";
 
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "SMMPanel";
+const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "calsmm@kmail.li";
 
 export function LandingFooter() {
   return (
@@ -43,6 +44,7 @@ export function LandingFooter() {
           <div>
             <h4 className="font-medium font-climate-crisis mb-3 text-foreground/80">Account</h4>
             <div className="flex flex-col gap-2 text-sm text-foreground  font-space-mono">
+              <Link href="/about" className="hover:text-foreground/70 transition-colors">About</Link>
               <Link href="/register" className="hover:text-foreground/70 transition-colors">Sign Up</Link>
               <Link href="/login" className="hover:text-foreground/70 transition-colors">Sign In</Link>
               <Link href="/dashboard/wallet" className="hover:text-foreground/70 transition-colors">Fund Wallet</Link>
@@ -52,9 +54,10 @@ export function LandingFooter() {
           <div>
             <h4 className="font-medium mb-3 text-foreground/80 font-climate-crisis">Support</h4>
             <div className="flex flex-col gap-2 text-sm text-foreground  font-space-mono">
+              <Link href="/contact" className="hover:text-foreground/70 transition-colors">Contact</Link>
               <Link href="/api-docs" className="hover:text-foreground/70 transition-colors">API Docs</Link>
-              <a href="https://wa.me/234XXXXXXXXXX" className="hover:text-foreground/70 transition-colors">WhatsApp</a>
-              <a href="https://t.me/yourtelegram" className="hover:text-foreground/70 transition-colors">Telegram</a>
+              <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-foreground/70 transition-colors">{SUPPORT_EMAIL}</a>
+              <Link href="/refund-policy" className="hover:text-foreground/70 transition-colors">Refund Policy</Link>
             </div>
           </div>
         </div>
@@ -63,6 +66,8 @@ export function LandingFooter() {
           <div className="flex items-center gap-4">
             <Link href="/terms" className="hover:text-foreground/50 transition-colors">Terms</Link>
             <Link href="/privacy" className="hover:text-foreground/50 transition-colors">Privacy</Link>
+            <Link href="/refund-policy" className="hover:text-foreground/50 transition-colors">Refunds</Link>
+            <Link href="/contact" className="hover:text-foreground/50 transition-colors">Contact</Link>
           </div>
         </div>
       </div>

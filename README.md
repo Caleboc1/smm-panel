@@ -175,9 +175,8 @@ DATABASE_URL=postgresql://user:pass@ep-xxx.neon.tech/neondb?sslmode=require
 ## 🎨 Customization
 
 - **App name**: Change `NEXT_PUBLIC_APP_NAME` in `.env`
+- **Support email**: Change `NEXT_PUBLIC_SUPPORT_EMAIL` in `.env`
 - **Colors**: Edit CSS variables in `src/app/globals.css`
-- **WhatsApp link**: Update in `LandingFooter.tsx`
-- **Telegram link**: Update in `LandingFooter.tsx`
 
 ---
 

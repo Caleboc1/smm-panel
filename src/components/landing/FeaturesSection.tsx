@@ -5,7 +5,7 @@ import { Zap, Shield, Clock, BarChart3, Repeat, Headphones } from "lucide-react"
 const features = [
   { icon: Zap, title: "Instant Delivery", desc: "Orders start processing within seconds. Watch your numbers grow in real-time." },
   { icon: Shield, title: "Account Safe", desc: "Real-velocity delivery patterns that never trigger platform risk detection." },
-  { icon: Clock, title: "24/7 Support", desc: "Trained support team available round the clock via WhatsApp and Telegram." },
+  { icon: Clock, title: "24/7 Support", desc: "Support is available by email for payments, wallet funding, and order issues." },
   { icon: BarChart3, title: "Order Tracking", desc: "Full dashboard with live order status, progress tracking, and history." },
   { icon: Repeat, title: "Refill Guarantee", desc: "Drop protection with automatic refills on eligible services." },
   { icon: Headphones, title: "Reseller API", desc: "Full REST API access to build your own SMM business on our infrastructure." },
