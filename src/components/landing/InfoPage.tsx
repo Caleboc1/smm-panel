@@ -19,13 +19,13 @@ export function InfoPage({
   title,
   intro,
   sections,
-  updated = "July 29, 2026",
+  effectiveDate = "May 30, 2026",
 }: {
   eyebrow: string;
   title: string;
   intro: string;
   sections: Section[];
-  updated?: string;
+  effectiveDate?: string;
 }) {
   return (
     <main className="min-h-screen bg-gray-50">
@@ -36,7 +36,7 @@ export function InfoPage({
             <p className="font-space-mono text-xs font-semibold uppercase tracking-widest text-violet-600">{eyebrow}</p>
             <h1 className="mt-3 text-3xl font-extrabold text-gray-950 sm:text-5xl">{title}</h1>
             <p className="mt-4 max-w-3xl text-base leading-7 text-gray-600">{intro}</p>
-            <p className="mt-3 font-space-mono text-xs text-gray-400">Last updated: {updated}</p>
+            <p className="mt-3 font-space-mono text-xs text-gray-400">Effective date: {effectiveDate}</p>
           </div>
 
           <div className="space-y-4">
