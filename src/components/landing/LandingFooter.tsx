@@ -57,6 +57,8 @@ export function LandingFooter() {
               <Link href="/contact" className="hover:text-foreground/70 transition-colors">Contact</Link>
               <Link href="/api-docs" className="hover:text-foreground/70 transition-colors">API Docs</Link>
               <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-foreground/70 transition-colors">{SUPPORT_EMAIL}</a>
+              <Link href="/terms" className="hover:text-foreground/70 transition-colors">Terms of Service</Link>
+              <Link href="/privacy" className="hover:text-foreground/70 transition-colors">Privacy Policy</Link>
               <Link href="/refund-policy" className="hover:text-foreground/70 transition-colors">Refund Policy</Link>
             </div>
           </div>

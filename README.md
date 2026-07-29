@@ -176,6 +176,7 @@ DATABASE_URL=postgresql://user:pass@ep-xxx.neon.tech/neondb?sslmode=require
 
 - **App name**: Change `NEXT_PUBLIC_APP_NAME` in `.env`
 - **Support email**: Change `NEXT_PUBLIC_SUPPORT_EMAIL` in `.env`
+- **Password reset email**: Configure `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, and `SMTP_FROM`
 - **Colors**: Edit CSS variables in `src/app/globals.css`
 
 ---
