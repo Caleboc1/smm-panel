@@ -1,6 +1,6 @@
 'use client';
 
-import { LayoutDashboard, ShoppingCart, ClipboardList, Wallet, Code, Settings, LogOut, Package, Users, Globe, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, ClipboardList, Wallet, Code, Settings, LogOut, Package, Users, Globe, ArrowLeft, Landmark } from 'lucide-react';
 import { SidebarItem } from './SidebarItem';
 import { signOut, useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -20,6 +20,7 @@ const adminRoutes = [
   { icon: LayoutDashboard, label: 'Overview',         href: '/admin' },
   { icon: Package,         label: 'Services',         href: '/admin/services' },
   { icon: ShoppingCart,    label: 'Orders',           href: '/admin/orders' },
+  { icon: Landmark,        label: 'Manual Deposits',  href: '/admin/manual-deposits' },
   { icon: Users,           label: 'Users',            href: '/admin/users' },
   { icon: Globe,           label: 'Peakerr Services', href: '/admin/upstream' },
 ];

@@ -2,7 +2,23 @@
 import { useEffect, useState } from "react";
 import { formatNGN } from "@/lib/utils";
 import toast from "react-hot-toast";
-import { Wallet, ArrowUpRight, Clock } from "lucide-react";
+import { Wallet, ArrowUpRight, Clock, Copy } from "lucide-react";
+
+type ManualPayment = {
+  reference: string;
+  payment: {
+    bankName: string;
+    accountNumber: string;
+    accountName: string;
+    confirmationTime: string;
+  };
+};
+
+const MANUAL_ACCOUNT = {
+  bankName: "OPay",
+  accountNumber: "8106963552",
+  accountName: "Caleb Ogeneochuko",
+};
 
 export default function WalletPage() {
   const [balance, setBalance] = useState(0);
@@ -10,23 +26,17 @@ export default function WalletPage() {
   const [loading, setLoading] = useState(false);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [txns, setTxns] = useState<any[]>([]);
+  const [manualPayment, setManualPayment] = useState<ManualPayment | null>(null);
 
   useEffect(() => {
     fetch("/api/user").then(r=>r.json()).then(d => setBalance(d?.balance ?? 0));
     fetch("/api/wallet/transactions").then(r=>r.json()).then(d => setTxns(d || [])).catch(()=>{});
-
-    // Auto-verify if redirected from Paystack
-    const params = new URLSearchParams(window.location.search);
-    const ref = params.get("ref");
-    if (ref) {
-      fetch("/api/wallet/verify", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({reference:ref}) })
-        .then(r=>r.json()).then(d => {
-          if (d.message) { toast.success(`Wallet credited ${d.amount ? formatNGN(d.amount) : ""}`); fetch("/api/user").then(r=>r.json()).then(u=>setBalance(u?.balance??0)); }
-          else toast.error(d.error || "Verification failed");
-        });
-      window.history.replaceState({}, "", "/dashboard/wallet");
-    }
   }, []);
+
+  async function copy(value: string, label: string) {
+    await navigator.clipboard.writeText(value);
+    toast.success(`${label} copied`);
+  }
 
   async function handleFund(e: React.FormEvent) {
     e.preventDefault();
@@ -37,7 +47,9 @@ export default function WalletPage() {
     const data = await res.json();
     setLoading(false);
     if (!res.ok) { toast.error(data.error); return; }
-    window.location.href = data.url;
+    setManualPayment(data);
+    toast.success("Transfer details generated");
+    fetch("/api/wallet/transactions").then(r=>r.json()).then(d => setTxns(d || [])).catch(()=>{});
   }
 
   const presets = [500, 1000, 2000, 5000, 10000, 20000];
@@ -62,8 +74,25 @@ export default function WalletPage() {
         {/* Fund wallet */}
         <div className="surface-2 border-subtle rounded-2xl p-6">
           <h3 className="font-semibold mb-4 flex items-center gap-2" style={{fontFamily:"var(--font-grotesk)"}}>
-            <ArrowUpRight className="w-4 h-4 text-violet-400" /> Add Funds
+            <ArrowUpRight className="w-4 h-4 text-violet-400" /> Manual Bank Transfer
           </h3>
+          <div className="mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
+            {[
+              ["Bank", MANUAL_ACCOUNT.bankName],
+              ["Account number", MANUAL_ACCOUNT.accountNumber],
+              ["Account name", MANUAL_ACCOUNT.accountName],
+            ].map(([label, value]) => (
+              <div key={label} className="flex items-center justify-between gap-3 border-t border-white/5 py-2 first:border-t-0 first:pt-0 last:pb-0 text-sm">
+                <span className="text-foreground/50">{label}</span>
+                <button type="button" onClick={() => copy(value, label)} className="flex items-center gap-1 font-mono font-semibold text-foreground hover:text-violet-500">
+                  {value} <Copy className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="mb-4 rounded-xl border border-yellow-400/20 bg-yellow-400/10 p-3 text-xs text-yellow-700">
+            Transfer to the OPay account below. Use your generated reference as the transfer narration where possible. Wallet confirmation takes about 5 minutes after payment is received.
+          </div>
           <form onSubmit={handleFund} className="space-y-4">
             <div>
               <label className="text-xs text-foreground/50 mb-2 block">Quick amounts</label>
@@ -84,10 +113,31 @@ export default function WalletPage() {
             </div>
             <button type="submit" disabled={loading}
               className="w-full py-3 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-foreground font-semibold rounded-xl transition-colors">
-              {loading ? "Redirecting..." : "Pay with Paystack"}
+              {loading ? "Generating..." : "Generate Transfer Details"}
             </button>
-            <p className="text-center text-xs text-foreground/25">Secured by Paystack. NGN only.</p>
+            <p className="text-center text-xs text-foreground/25">Manual transfer. NGN only.</p>
           </form>
+          {manualPayment && (
+            <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4">
+              <div className="mb-3 text-sm font-semibold text-emerald-700">Transfer exactly {formatNGN(parseFloat(amount))}</div>
+              {[
+                ["Bank", manualPayment.payment.bankName],
+                ["Account number", manualPayment.payment.accountNumber],
+                ["Account name", manualPayment.payment.accountName],
+                ["Reference", manualPayment.reference],
+              ].map(([label, value]) => (
+                <div key={label} className="flex items-center justify-between gap-3 border-t border-emerald-500/10 py-2 text-sm">
+                  <span className="text-foreground/50">{label}</span>
+                  <button type="button" onClick={() => copy(value, label)} className="flex items-center gap-1 font-mono font-semibold text-foreground hover:text-violet-500">
+                    {value} <Copy className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              ))}
+              <p className="mt-3 text-xs text-emerald-700">
+                Your wallet will be credited after admin confirmation, usually within {manualPayment.payment.confirmationTime}.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 

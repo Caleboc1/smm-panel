@@ -1,6 +1,6 @@
 # SMM Panel — Next.js 15
 
-A full-stack Social Media Marketing panel built with Next.js 15, Prisma, PostgreSQL, and Paystack.
+A full-stack Social Media Marketing panel built with Next.js 15, Prisma, PostgreSQL, and manual wallet funding.
 
 ---
 
@@ -18,7 +18,6 @@ cp .env.example .env
 Fill in your values:
 - `DATABASE_URL` — PostgreSQL connection string (use [Neon](https://neon.tech) free tier)
 - `NEXTAUTH_SECRET` — run `openssl rand -base64 32` to generate
-- `PAYSTACK_SECRET_KEY` / `PAYSTACK_PUBLIC_KEY` — from [Paystack dashboard](https://dashboard.paystack.com)
 - `UPSTREAM_API_URL` / `UPSTREAM_API_KEY` — from your wholesale SMM provider (e.g. [Peakerr](https://peakerr.com), [SMMStone](https://smmstone.com))
 
 ### 3. Push database schema
@@ -71,7 +70,7 @@ src/
 │       ├── categories/           # Categories API
 │       ├── orders/               # Orders CRUD
 │       ├── user/                 # User profile
-│       ├── wallet/               # Paystack fund + verify
+│       ├── wallet/               # Manual transfer funding
 │       ├── admin/                # Admin management APIs
 │       └── v1/                   # Public reseller API
 ├── components/
@@ -81,18 +80,18 @@ src/
 └── lib/
     ├── prisma.ts                 # Prisma client
     ├── auth.ts                   # NextAuth config
-    ├── paystack.ts               # Paystack helpers
     ├── upstream.ts               # Wholesale SMM API wrapper
     └── utils.ts                  # Utilities (formatNGN, calcCharge)
 ```
 
 ---
 
-## 💳 Payment Setup (Paystack)
+## 💳 Payment Setup (Manual Transfer)
 
-1. Create account at [paystack.com](https://paystack.com)
-2. Get your **Secret Key** and **Public Key** from Settings > API Keys
-3. Add webhook URL in Paystack dashboard: `https://yourdomain.com/api/wallet/verify`
+1. Customers generate transfer details from `/dashboard/wallet`
+2. Customers send payment to the displayed OPay account
+3. Admin reviews pending transfers from `/admin/manual-deposits`
+4. Approved transfers credit the customer wallet
 
 ---
 
@@ -165,7 +164,7 @@ DATABASE_URL=postgresql://user:pass@ep-xxx.neon.tech/neondb?sslmode=require
 | Framework | Next.js 15 (App Router) |
 | Database | PostgreSQL + Prisma ORM |
 | Auth | NextAuth.js (JWT) |
-| Payments | Paystack |
+| Payments | Manual bank transfer |
 | Styling | Tailwind CSS |
 | Icons | Lucide React |
 | Toasts | React Hot Toast |

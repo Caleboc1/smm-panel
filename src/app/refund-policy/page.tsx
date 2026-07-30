@@ -18,7 +18,7 @@ export default function RefundPolicyPage() {
         {
           title: "Wallet funding",
           body: [
-            "If a successful Paystack payment is not credited to a customer wallet, the customer should contact support with the payment reference. After verification, we will credit the wallet or resolve the duplicate or failed transaction issue.",
+            "If a successful manual transfer is not credited to a customer wallet, the customer should contact support with the payment reference, sender name, amount, and transfer receipt. After verification, we will credit the wallet or resolve the duplicate or failed transaction issue.",
             "Wallet funding may be refundable only where the funds have not been used for orders and the payment can be traced and verified.",
           ],
         },

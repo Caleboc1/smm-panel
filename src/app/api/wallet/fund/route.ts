@@ -2,7 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { initializeTransaction } from "@/lib/paystack";
+
+const MANUAL_PAYMENT = {
+  bankName: "OPay",
+  accountNumber: "8106963552",
+  accountName: process.env.MANUAL_TRANSFER_ACCOUNT_NAME || "Caleb Ogeneochuko",
+  confirmationTime: "5 minutes",
+};
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -16,16 +22,12 @@ export async function POST(req: NextRequest) {
     await prisma.transaction.create({
       data: {
         userId: session.user.id, amount, type: "CREDIT",
-        method: "paystack", reference, status: "PENDING",
-        description: "Wallet top-up via Paystack",
+        method: "manual_transfer", reference, status: "PENDING",
+        description: `Manual transfer pending - ${reference}`,
       },
     });
 
-    const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/wallet?ref=${reference}`;
-    const data = await initializeTransaction(session.user.email!, amount, reference, callbackUrl);
-
-    if (!data.status) return NextResponse.json({ error: "Payment initialization failed" }, { status: 500 });
-    return NextResponse.json({ url: data.data.authorization_url, reference });
+    return NextResponse.json({ reference, payment: MANUAL_PAYMENT });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }

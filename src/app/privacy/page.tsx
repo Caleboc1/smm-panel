@@ -25,7 +25,7 @@ export default function PrivacyPage() {
         {
           title: "Payments",
           body: [
-            "Payments are processed through Paystack. We do not store full card details on our servers. We store payment references, transaction amounts, status, and related account records so we can reconcile wallet top-ups, orders, refunds, and disputes.",
+            "Payments are currently processed through manual bank transfer. We store payment references, transaction amounts, status, and related account records so we can reconcile wallet top-ups, orders, refunds, and disputes.",
           ],
         },
         {

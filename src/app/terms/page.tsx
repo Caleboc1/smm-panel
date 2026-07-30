@@ -32,7 +32,7 @@ export default function TermsPage() {
         {
           title: "Payments and wallet balance",
           body: [
-            "Payments accepted through Paystack are used to fund customer wallets or pay for eligible orders. Wallet balances are credited after successful payment verification.",
+            "Payments are currently accepted through manual bank transfer to the account details displayed on the wallet page. Wallet balances are credited after successful payment confirmation.",
             "Prices are displayed in Nigerian Naira and may change based on service availability, supplier cost, or platform conditions.",
           ],
         },

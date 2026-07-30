@@ -19,7 +19,7 @@ export default function AboutPage() {
           title: "What we offer",
           body: [
             "Customers can browse and order social media marketing services such as followers, likes, views, comments, watch time, and other engagement or visibility packages for supported platforms including Instagram, TikTok, YouTube, Facebook, Telegram, and X/Twitter.",
-            "Payments received through Paystack are for wallet top-ups and customer orders placed on the platform. Wallet balances are used by customers to pay for selected services at the displayed NGN rates.",
+            "Payments are currently received through manual bank transfer for wallet top-ups and customer orders placed on the platform. Wallet balances are used by customers to pay for selected services at the displayed NGN rates.",
           ],
         },
         {
