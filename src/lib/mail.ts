@@ -52,3 +52,67 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string) {
     `,
   });
 }
+
+export async function sendManualTransferReceiptEmail({
+  to = process.env.MANUAL_TRANSFER_RECEIPT_EMAIL || SUPPORT_EMAIL,
+  customerEmail,
+  customerName,
+  reference,
+  amount,
+  senderName,
+  note,
+  attachment,
+}: {
+  to?: string;
+  customerEmail: string;
+  customerName?: string | null;
+  reference: string;
+  amount: number;
+  senderName?: string;
+  note?: string;
+  attachment: {
+    filename: string;
+    contentType: string;
+    content: Buffer;
+  };
+}) {
+  const smtp = getSmtpConfig();
+
+  if (!smtp) {
+    if (process.env.NODE_ENV !== "production") {
+      console.info(`Manual transfer receipt submitted for ${reference} by ${customerEmail}`);
+      return;
+    }
+    throw new Error("SMTP is not configured");
+  }
+
+  const transporter = nodemailer.createTransport(smtp);
+  const rows = [
+    ["Customer", customerName ? `${customerName} <${customerEmail}>` : customerEmail],
+    ["Amount", `NGN ${amount.toLocaleString("en-NG")}`],
+    ["Reference", reference],
+    ["Sender name", senderName || "Not provided"],
+    ["Note", note || "None"],
+  ];
+
+  await transporter.sendMail({
+    to,
+    from: process.env.SMTP_FROM || `${APP_NAME} Support <${SUPPORT_EMAIL}>`,
+    subject: `Manual transfer receipt - ${reference}`,
+    text: rows.map(([label, value]) => `${label}: ${value}`).join("\n"),
+    html: `
+      <div style="font-family:Arial,sans-serif;line-height:1.6;color:#111">
+        <h2>Manual transfer receipt</h2>
+        <table cellpadding="6" cellspacing="0" style="border-collapse:collapse">
+          ${rows.map(([label, value]) => `<tr><td style="font-weight:bold">${label}</td><td>${value}</td></tr>`).join("")}
+        </table>
+        <p>Open the admin manual deposits page to confirm this transfer before crediting the wallet.</p>
+      </div>
+    `,
+    attachments: [{
+      filename: attachment.filename,
+      content: attachment.content,
+      contentType: attachment.contentType,
+    }],
+  });
+}

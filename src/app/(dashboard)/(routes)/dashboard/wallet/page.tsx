@@ -27,6 +27,11 @@ export default function WalletPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [txns, setTxns] = useState<any[]>([]);
   const [manualPayment, setManualPayment] = useState<ManualPayment | null>(null);
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const [senderName, setSenderName] = useState("");
+  const [receiptNote, setReceiptNote] = useState("");
+  const [receiptLoading, setReceiptLoading] = useState(false);
+  const [receiptSubmitted, setReceiptSubmitted] = useState(false);
 
   useEffect(() => {
     fetch("/api/user").then(r=>r.json()).then(d => setBalance(d?.balance ?? 0));
@@ -48,8 +53,45 @@ export default function WalletPage() {
     setLoading(false);
     if (!res.ok) { toast.error(data.error); return; }
     setManualPayment(data);
+    setReceiptFile(null);
+    setReceiptSubmitted(false);
     toast.success("Transfer details generated");
     fetch("/api/wallet/transactions").then(r=>r.json()).then(d => setTxns(d || [])).catch(()=>{});
+  }
+
+  async function submitReceipt(e: React.FormEvent) {
+    e.preventDefault();
+    if (!manualPayment) return;
+    if (!receiptFile) {
+      toast.error("Upload your transfer receipt");
+      return;
+    }
+
+    const form = new FormData();
+    form.append("reference", manualPayment.reference);
+    form.append("senderName", senderName);
+    form.append("note", receiptNote);
+    form.append("receipt", receiptFile);
+
+    setReceiptLoading(true);
+    try {
+      const res = await fetch("/api/wallet/manual-receipt", {
+        method: "POST",
+        body: form,
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Unable to submit receipt");
+        return;
+      }
+      setReceiptSubmitted(true);
+      toast.success(data.message || "Receipt submitted");
+      fetch("/api/wallet/transactions").then(r=>r.json()).then(d => setTxns(d || [])).catch(()=>{});
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setReceiptLoading(false);
+    }
   }
 
   const presets = [500, 1000, 2000, 5000, 10000, 20000];
@@ -136,6 +178,42 @@ export default function WalletPage() {
               <p className="mt-3 text-xs text-emerald-700">
                 Your wallet will be credited after admin confirmation, usually within {manualPayment.payment.confirmationTime}.
               </p>
+              <form onSubmit={submitReceipt} className="mt-4 space-y-3 border-t border-emerald-500/10 pt-4">
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold text-foreground/50">Sender name</label>
+                  <input
+                    type="text"
+                    value={senderName}
+                    onChange={e => setSenderName(e.target.value)}
+                    className="w-full rounded-xl border border-emerald-500/20 bg-white/10 px-3 py-2 text-sm text-foreground focus:outline-none focus:border-violet-500/40"
+                    placeholder="Name on transfer"
+                  />
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold text-foreground/50">Upload receipt</label>
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,application/pdf"
+                    onChange={e => setReceiptFile(e.target.files?.[0] || null)}
+                    className="w-full rounded-xl border border-emerald-500/20 bg-white/10 px-3 py-2 text-sm text-foreground file:mr-3 file:rounded-lg file:border-0 file:bg-violet-600 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white"
+                  />
+                  <p className="mt-1 text-xs text-foreground/35">JPG, PNG, WEBP, or PDF. Max 5MB.</p>
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold text-foreground/50">Note</label>
+                  <textarea
+                    value={receiptNote}
+                    onChange={e => setReceiptNote(e.target.value)}
+                    rows={2}
+                    className="w-full resize-none rounded-xl border border-emerald-500/20 bg-white/10 px-3 py-2 text-sm text-foreground focus:outline-none focus:border-violet-500/40"
+                    placeholder="Optional transfer note"
+                  />
+                </div>
+                <button type="submit" disabled={receiptLoading || receiptSubmitted}
+                  className="w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-50">
+                  {receiptSubmitted ? "Receipt Submitted" : receiptLoading ? "Sending Receipt..." : "Send Receipt for Confirmation"}
+                </button>
+              </form>
             </div>
           )}
         </div>
