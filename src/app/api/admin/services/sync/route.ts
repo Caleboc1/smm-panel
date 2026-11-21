@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getServices } from "@/lib/upstream";
 
+export const maxDuration = 60;
+
 const USD_TO_NGN = 1600;
 const MARKUP = 2.5;
 const INSERT_BATCH_SIZE = 250;
@@ -138,6 +140,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Sync error:", error);
-    return NextResponse.json({ error: "Sync failed" }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Unknown sync error";
+    return NextResponse.json({ error: `Sync failed: ${message}` }, { status: 500 });
   }
 }

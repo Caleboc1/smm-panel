@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getServices, getBalance } from "@/lib/upstream";
 
+export const maxDuration = 60;
+
 export async function GET() {
   const session = await getServerSession(authOptions);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
