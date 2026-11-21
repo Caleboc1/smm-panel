@@ -6,6 +6,26 @@ import { getServices } from "@/lib/upstream";
 
 const USD_TO_NGN = 1600;
 const MARKUP = 2.5;
+const INSERT_BATCH_SIZE = 250;
+
+type UpstreamService = {
+  service: string | number;
+  name: string;
+  type?: string;
+  rate: string | number;
+  min: string | number;
+  max: string | number;
+  dripfeed?: boolean;
+  refill?: boolean;
+  cancel?: boolean;
+  category?: string;
+};
+
+function chunks<T>(items: T[], size: number) {
+  const result: T[][] = [];
+  for (let i = 0; i < items.length; i += size) result.push(items.slice(i, i + size));
+  return result;
+}
 
 function extractPlatform(category: string): string {
   const lower = category.toLowerCase();
@@ -44,55 +64,75 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let created = 0;
-    let skipped = 0;
+    const validServices = (peakerServices as UpstreamService[]).filter((svc) =>
+      svc?.service !== undefined && svc?.service !== null &&
+      typeof svc.name === "string" && svc.name.length > 0 &&
+      Number.isFinite(Number(svc.rate)) && Number.isFinite(Number(svc.min)) &&
+      Number.isFinite(Number(svc.max))
+    );
+    const uniqueServices = Array.from(
+      new Map(validServices.map((svc) => [String(svc.service), svc])).values()
+    );
+    const upstreamIds = uniqueServices.map((svc) => String(svc.service));
 
-    for (const svc of peakerServices) {
-      // Skip if already imported
-      const existing = await prisma.service.findFirst({
-        where: { upstreamId: String(svc.service) },
+    const existingServices = await prisma.service.findMany({
+      where: { upstreamId: { in: upstreamIds } },
+      select: { upstreamId: true },
+    });
+    const existingIds = new Set(existingServices.map((svc) => svc.upstreamId));
+    const newServices = uniqueServices.filter((svc) => !existingIds.has(String(svc.service)));
+
+    const categoryNames = Array.from(new Set(newServices.map((svc) => svc.category || "General")));
+    let categories = await prisma.category.findMany({
+      where: { name: { in: categoryNames } },
+      select: { id: true, name: true },
+    });
+    const existingCategoryNames = new Set(categories.map((category) => category.name));
+    const missingCategories = categoryNames.filter((name) => !existingCategoryNames.has(name));
+
+    if (missingCategories.length) {
+      await prisma.category.createMany({
+        data: missingCategories.map((name) => ({
+          name,
+          platform: extractPlatform(name),
+          sortOrder: 0,
+        })),
       });
-      if (existing) { skipped++; continue; }
-
-      // Find or create category
-      const catName = svc.category || "General";
-      const platform = extractPlatform(catName);
-
-      let category = await prisma.category.findFirst({
-        where: { name: catName },
+      categories = await prisma.category.findMany({
+        where: { name: { in: categoryNames } },
+        select: { id: true, name: true },
       });
+    }
 
-      if (!category) {
-        category = await prisma.category.create({
-          data: { name: catName, platform, sortOrder: 0 },
-        });
-      }
+    const categoryIds = new Map(categories.map((category) => [category.name, category.id]));
+    const serviceRows = newServices.flatMap((svc) => {
+      const categoryId = categoryIds.get(svc.category || "General");
+      if (!categoryId) return [];
 
-      // Calculate your NGN rate with markup
-      const peakerRateUSD = parseFloat(svc.rate);
-      const peakerRateNGN = peakerRateUSD * USD_TO_NGN;
-      const yourRateNGN = Math.ceil(peakerRateNGN * MARKUP);
+      const rateNgn = Math.ceil(Number(svc.rate) * USD_TO_NGN * MARKUP);
+      return [{
+        categoryId,
+        name: svc.name,
+        description: `Type: ${svc.type || "Default"}`,
+        minOrder: Math.trunc(Number(svc.min)),
+        maxOrder: Math.trunc(Number(svc.max)),
+        rate: rateNgn,
+        upstreamId: String(svc.service),
+        refill: svc.refill ?? false,
+        cancel: svc.cancel ?? false,
+        dripFeed: svc.dripfeed ?? false,
+        isActive: true,
+      }];
+    });
 
-      await prisma.service.create({
-        data: {
-          categoryId: category.id,
-          name: svc.name,
-          description: `Type: ${svc.type}`,
-          minOrder: parseInt(svc.min),
-          maxOrder: parseInt(svc.max),
-          rate: yourRateNGN,
-          upstreamId: String(svc.service),
-          refill: svc.refill ?? false,
-          cancel: svc.cancel ?? false,
-          isActive: true,
-        },
-      });
-      created++;
+    for (const batch of chunks(serviceRows, INSERT_BATCH_SIZE)) {
+      await prisma.service.createMany({ data: batch });
     }
 
     return NextResponse.json({
-      created,
-      skipped,
+      created: serviceRows.length,
+      skipped: uniqueServices.length - serviceRows.length,
+      invalid: peakerServices.length - validServices.length,
       total: peakerServices.length,
       message: `Sync complete`,
     });
