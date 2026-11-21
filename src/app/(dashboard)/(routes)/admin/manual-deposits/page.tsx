@@ -11,6 +11,7 @@ type ManualDeposit = {
   status: "PENDING" | "COMPLETED" | "FAILED";
   description: string | null;
   createdAt: string;
+  senderName?: string;
   user: { email: string; name: string | null; balance: number };
 };
 
@@ -83,7 +84,7 @@ export default function ManualDepositsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead className="bg-white/[0.02]">
-                <tr>{["Customer", "Amount", "Reference", "Status", "Date", "Action"].map(h => (
+                <tr>{["Customer", "Amount", "Sender account name", "Reference", "Status", "Date", "Action"].map(h => (
                   <th key={h} className="text-left px-4 py-3 text-foreground/30 uppercase tracking-wide">{h}</th>
                 ))}</tr>
               </thead>
@@ -95,6 +96,7 @@ export default function ManualDepositsPage() {
                       <div className="text-foreground/30">{deposit.user.email}</div>
                     </td>
                     <td className="px-4 py-3 font-mono font-semibold text-emerald-400">{formatNGN(deposit.amount)}</td>
+                    <td className="px-4 py-3 text-foreground/70">{deposit.description?.replace(/^Manual transfer from /, "") || "—"}</td>
                     <td className="px-4 py-3 font-mono text-foreground/60">{deposit.reference}</td>
                     <td className="px-4 py-3">
                       <span className={`rounded-full px-2 py-0.5 ${STATUS_COLORS[deposit.status] || "bg-white/5 text-foreground/50"}`}>{deposit.status}</span>

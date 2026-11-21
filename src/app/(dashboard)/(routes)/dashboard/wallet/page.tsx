@@ -15,8 +15,8 @@ type ManualPayment = {
 };
 
 const MANUAL_ACCOUNT = {
-  bankName: "OPay",
-  accountNumber: "8106963552",
+  bankName: "Kuda Bank",
+  accountNumber: "2003433441",
   accountName: "Caleb Ogeneochuko",
 };
 
@@ -27,11 +27,7 @@ export default function WalletPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [txns, setTxns] = useState<any[]>([]);
   const [manualPayment, setManualPayment] = useState<ManualPayment | null>(null);
-  const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const [senderName, setSenderName] = useState("");
-  const [receiptNote, setReceiptNote] = useState("");
-  const [receiptLoading, setReceiptLoading] = useState(false);
-  const [receiptSubmitted, setReceiptSubmitted] = useState(false);
 
   useEffect(() => {
     fetch("/api/user").then(r=>r.json()).then(d => setBalance(d?.balance ?? 0));
@@ -48,50 +44,14 @@ export default function WalletPage() {
     const amt = parseFloat(amount);
     if (!amt || amt < 100) { toast.error("Minimum deposit is ₦100"); return; }
     setLoading(true);
-    const res = await fetch("/api/wallet/fund", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({amount:amt}) });
+    if (senderName.trim().length < 2) { toast.error("Enter the name on the sending account"); return; }
+    const res = await fetch("/api/wallet/fund", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({amount:amt, senderName}) });
     const data = await res.json();
     setLoading(false);
     if (!res.ok) { toast.error(data.error); return; }
     setManualPayment(data);
-    setReceiptFile(null);
-    setReceiptSubmitted(false);
-    toast.success("Transfer details generated");
+    toast.success("Funding request submitted");
     fetch("/api/wallet/transactions").then(r=>r.json()).then(d => setTxns(d || [])).catch(()=>{});
-  }
-
-  async function submitReceipt(e: React.FormEvent) {
-    e.preventDefault();
-    if (!manualPayment) return;
-    if (!receiptFile) {
-      toast.error("Upload your transfer receipt");
-      return;
-    }
-
-    const form = new FormData();
-    form.append("reference", manualPayment.reference);
-    form.append("senderName", senderName);
-    form.append("note", receiptNote);
-    form.append("receipt", receiptFile);
-
-    setReceiptLoading(true);
-    try {
-      const res = await fetch("/api/wallet/manual-receipt", {
-        method: "POST",
-        body: form,
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.error || "Unable to submit receipt");
-        return;
-      }
-      setReceiptSubmitted(true);
-      toast.success(data.message || "Receipt submitted");
-      fetch("/api/wallet/transactions").then(r=>r.json()).then(d => setTxns(d || [])).catch(()=>{});
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      setReceiptLoading(false);
-    }
   }
 
   const presets = [500, 1000, 2000, 5000, 10000, 20000];
@@ -133,7 +93,7 @@ export default function WalletPage() {
             ))}
           </div>
           <div className="mb-4 rounded-xl border border-yellow-400/20 bg-yellow-400/10 p-3 text-xs text-yellow-700">
-            Transfer to the OPay account below. Use your generated reference as the transfer narration where possible. Wallet confirmation takes about 5 minutes after payment is received.
+            Transfer to this Kuda account, enter the name on the sending account, then confirm once you have sent the transfer. Admin will review it, usually within 5 minutes.
           </div>
           <form onSubmit={handleFund} className="space-y-4">
             <div>
@@ -153,19 +113,22 @@ export default function WalletPage() {
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground placeholder-white/20 focus:outline-none focus:border-violet-500/40 font-mono"
                 placeholder="500" />
             </div>
+            <div>
+              <label className="text-xs text-foreground/50 mb-1.5 block">Name on sending account</label>
+              <input type="text" value={senderName} onChange={e=>setSenderName(e.target.value)} required minLength={2} maxLength={100}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground placeholder-white/20 focus:outline-none focus:border-violet-500/40"
+                placeholder="Account holder name" />
+            </div>
             <button type="submit" disabled={loading}
               className="w-full py-3 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-foreground font-semibold rounded-xl transition-colors">
-              {loading ? "Generating..." : "Generate Transfer Details"}
+              {loading ? "Submitting..." : "I've sent it"}
             </button>
             <p className="text-center text-xs text-foreground/25">Manual transfer. NGN only.</p>
           </form>
           {manualPayment && (
             <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4">
-              <div className="mb-3 text-sm font-semibold text-emerald-700">Transfer exactly {formatNGN(parseFloat(amount))}</div>
+              <div className="mb-3 text-sm font-semibold text-emerald-700">Funding request submitted: {formatNGN(parseFloat(amount))}</div>
               {[
-                ["Bank", manualPayment.payment.bankName],
-                ["Account number", manualPayment.payment.accountNumber],
-                ["Account name", manualPayment.payment.accountName],
                 ["Reference", manualPayment.reference],
               ].map(([label, value]) => (
                 <div key={label} className="flex items-center justify-between gap-3 border-t border-emerald-500/10 py-2 text-sm">
@@ -175,45 +138,7 @@ export default function WalletPage() {
                   </button>
                 </div>
               ))}
-              <p className="mt-3 text-xs text-emerald-700">
-                Your wallet will be credited after admin confirmation, usually within {manualPayment.payment.confirmationTime}.
-              </p>
-              <form onSubmit={submitReceipt} className="mt-4 space-y-3 border-t border-emerald-500/10 pt-4">
-                <div>
-                  <label className="mb-1.5 block text-xs font-semibold text-foreground/50">Sender name</label>
-                  <input
-                    type="text"
-                    value={senderName}
-                    onChange={e => setSenderName(e.target.value)}
-                    className="w-full rounded-xl border border-emerald-500/20 bg-white/10 px-3 py-2 text-sm text-foreground focus:outline-none focus:border-violet-500/40"
-                    placeholder="Name on transfer"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-xs font-semibold text-foreground/50">Upload receipt</label>
-                  <input
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp,application/pdf"
-                    onChange={e => setReceiptFile(e.target.files?.[0] || null)}
-                    className="w-full rounded-xl border border-emerald-500/20 bg-white/10 px-3 py-2 text-sm text-foreground file:mr-3 file:rounded-lg file:border-0 file:bg-violet-600 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white"
-                  />
-                  <p className="mt-1 text-xs text-foreground/35">JPG, PNG, WEBP, or PDF. Max 5MB.</p>
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-xs font-semibold text-foreground/50">Note</label>
-                  <textarea
-                    value={receiptNote}
-                    onChange={e => setReceiptNote(e.target.value)}
-                    rows={2}
-                    className="w-full resize-none rounded-xl border border-emerald-500/20 bg-white/10 px-3 py-2 text-sm text-foreground focus:outline-none focus:border-violet-500/40"
-                    placeholder="Optional transfer note"
-                  />
-                </div>
-                <button type="submit" disabled={receiptLoading || receiptSubmitted}
-                  className="w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-50">
-                  {receiptSubmitted ? "Receipt Submitted" : receiptLoading ? "Sending Receipt..." : "Send Receipt for Confirmation"}
-                </button>
-              </form>
+              <p className="mt-3 text-xs text-emerald-700">Your wallet will be credited after admin confirms the transfer, usually within 5 minutes.</p>
             </div>
           )}
         </div>
